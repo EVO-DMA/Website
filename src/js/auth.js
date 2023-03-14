@@ -21,7 +21,7 @@ let shownForm = "login";
  * @param {("show"|"hide")} action
  */
 function setRelativesVisibility(name, action) {
-    Array.from(document.getElementsByClassName(name)).forEach(el => {
+    Array.from(document.getElementsByClassName(name)).forEach((el) => {
         if (action === "show") {
             el.style.display = "";
         } else if (action === "hide") {
