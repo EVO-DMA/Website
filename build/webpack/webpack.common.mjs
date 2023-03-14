@@ -1,4 +1,3 @@
-import CopyPlugin from "copy-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import path from "path";
@@ -47,11 +46,8 @@ const webpack_common = {
             },
             {
                 test: /\.(png|jpg|jpeg|svg)$/,
-                type: "asset",
+                type: "asset/inline",
                 exclude: /(fonts)/,
-                generator: {
-                    filename: "img/[name].[hash].[ext]",
-                },
             },
             {
                 test: /\.md/,
@@ -59,10 +55,7 @@ const webpack_common = {
             },
         ],
     },
-    plugins: [
-        new HtmlWebpackPlugin(HtmlWebpackPluginConfig),
-        new MiniCssExtractPlugin(MiniCssExtractPluginConfig),
-    ],
+    plugins: [new HtmlWebpackPlugin(HtmlWebpackPluginConfig), new MiniCssExtractPlugin(MiniCssExtractPluginConfig)],
 };
 
 export default webpack_common;

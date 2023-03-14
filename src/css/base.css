@@ -13,3 +13,8 @@ body {
     line-height: 1;
     overflow: hidden;
 }
+
+.baseContainer {
+    height: 100%;
+    position: relative;
+}

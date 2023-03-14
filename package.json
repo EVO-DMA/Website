@@ -6,7 +6,7 @@
   "scripts": {
 		"develop": "node ./build/builder.mjs dev",
 		"build": "node ./build/builder.mjs prod",
-		"format": "node formatter/main.js .prettierrc src build"
+		"format": "node formatter/main.js .prettierrc src build index.html"
 	},
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.3.0",

@@ -1,11 +1,65 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>EVO DMA</title>
-  </head>
-  <body>
-    <h1>Hello, world!</h1>
-  </body>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>EVO DMA</title>
+    </head>
+    <body>
+        <!-- Base Container -->
+        <div class="baseContainer">
+            <!-- Login Page -->
+            <div class="loginContainer">
+                <div class="row m-0 mb-3 justify-content-center align-items-center">
+                    <div class="col-auto">
+                        <img src="./src/img/favicon.svg" class="authLogo p-0">
+                    </div>
+                </div>
+                <div class="row m-0 justify-content-center align-items-center">
+                    <div class="col-auto">
+                        <h1 id="authFormTitle">Login</h1>
+                    </div>
+                </div>
+                <div class="row m-0 justify-content-center align-items-center" id="authAlerts">
+                    <div>
+                        <div class="col-12 mb-2 authAlert authAlertInfo">
+                            Login successful! Redirecting...
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-0 mb-3 justify-content-center align-items-center authUsername" style="display: none;">
+                    <div class="col">
+                        <label for="authUsername" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="authUsername">
+                    </div>
+                </div>
+                <div class="row m-0 mb-3 justify-content-center align-items-center authEmail">
+                    <div class="col">
+                        <label for="authEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="authEmail">
+                    </div>
+                </div>
+                <div class="row m-0 mb-3 justify-content-center align-items-center authPassword">
+                    <div class="col">
+                        <label for="authPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="authPassword">
+                        <div class="form-text authForgotPassword" id="authForgotPassword">Forgot password?</div>
+                    </div>
+                </div>
+                <div class="row m-0 mb-3 justify-content-center align-items-center authInvite" style="display: none;">
+                    <div class="col">
+                        <label for="authInvite" class="form-label">Invite Code</label>
+                        <input type="text" class="form-control" id="authInvite">
+                    </div>
+                </div>
+                <div class="row m-0 mb-3 justify-content-center align-items-center">
+                    <div class="col-auto">
+                        <button class="btn btn-primary authSendEmail" id="authSendEmail" style="display: none;">Send Email</button>
+                        <button class="btn btn-primary authLogin" id="authLogin">Login</button>
+                        <button class="btn btn-secondary authRegister" id="authRegister">Show Registration</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>
