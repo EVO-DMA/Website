@@ -1,10 +1,19 @@
-export function httpPost(url, body, sessionToken = null) {
+import globals from "./globals";
+
+export function httpPost(endpoint, body, sessionToken = null) {
     return new Promise((resolve) => {
         const xhr = new XMLHttpRequest();
+        xhr.withCredentials = false;
 
         xhr.addEventListener("readystatechange", () => {
-            if (this.readyState === 4) {
-                resolve(JSON.parse(this.responseText));
+            if (xhr.readyState === 4) {
+                const sessionToken = xhr.getResponseHeader("session-token");
+
+                // localStorage.setItem("session-token", sessionToken);
+
+                console.log(sessionToken);
+
+                resolve(JSON.parse(xhr.responseText));
             }
         });
 
@@ -12,7 +21,7 @@ export function httpPost(url, body, sessionToken = null) {
             // TODO: Show failure alert
         });
 
-        xhr.open("POST", url);
+        xhr.open("POST", `${globals.url}/${endpoint}`);
         if (sessionToken !== null) xhr.setRequestHeader("Session-Token", sessionToken);
         xhr.setRequestHeader("Content-Type", "application/json");
 

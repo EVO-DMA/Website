@@ -22,7 +22,7 @@ const webpack_dev = merge(webpack_common, {
     devtool: "inline-source-map",
     devServer: {
         setupExitSignals: false,
-        server: "https",
+        server: "http",
         compress: true,
         historyApiFallback: {
             disableDotRule: true,

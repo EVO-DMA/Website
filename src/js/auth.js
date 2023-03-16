@@ -1,19 +1,45 @@
+import { httpPost } from "./http";
+
 // Elements
 const authFormTitleEl = document.getElementById("authFormTitle");
+const authAlertsEl = document.getElementById("authAlerts");
 
 // Buttons
 const authSendEmailEl = document.getElementById("authSendEmail");
 const authLoginBtnEl = document.getElementById("authLogin");
 const authRegisterBtnEl = document.getElementById("authRegister");
 
+/** @type {HTMLInputElement} */
 const authUsernameEl = document.getElementById("authUsername");
+/** @type {HTMLInputElement} */
 const authEmailEl = document.getElementById("authEmail");
+/** @type {HTMLInputElement} */
 const authPassword = document.getElementById("authPassword");
 const authForgotPassword = document.getElementById("authForgotPassword");
+/** @type {HTMLInputElement} */
 const authInviteEl = document.getElementById("authInvite");
 
 /** @type {("login"|"registration"|"forgot")} */
 let shownForm = "login";
+
+/**
+ * Display auth alerts from a string array.
+ * @param {string[]} alerts
+ */
+function alertHandler(alerts) {
+    authAlertsEl.innerHTML = "";
+
+    alerts.forEach(alert => {
+        authAlertsEl.innerHTML += /*html*/`
+            <div>
+                <div class="col-12 mb-2 authAlert authAlertInfo">${alert}</div>
+            </div>
+        `;
+    });
+
+    // Show alerts container
+    authAlertsEl.style.display = "";
+}
 
 /**
  * Show/hide all elements with the given class.
@@ -31,7 +57,7 @@ function setRelativesVisibility(name, action) {
 }
 
 export function initialize() {
-    authLoginBtnEl.addEventListener("click", () => {
+    authLoginBtnEl.addEventListener("click", async () => {
         if (shownForm !== "login") {
             shownForm = "login";
             authFormTitleEl.innerText = "Login";
@@ -45,7 +71,18 @@ export function initialize() {
             setRelativesVisibility("authRegister", "show");
             authRegisterBtnEl.innerText = "Show Registration";
         } else {
-            // Do login
+            const result = await httpPost("login", {
+                email: authEmailEl.value,
+                password: authPassword.value
+            });
+
+            console.log(result);
+
+            if (!result.success) { // Login was not successful
+                alertHandler(result.message);
+            } else { // Login was successful
+
+            }
         }
     });
 
