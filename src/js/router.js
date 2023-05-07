@@ -5,10 +5,10 @@ export function initialize() {
     window.addEventListener("popstate", router);
 
     // Listen for clicks on links and update the route
-    document.querySelectorAll('a').forEach((link) => {
-        link.addEventListener('click', (event) => {
+    document.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", (event) => {
             event.preventDefault();
-            const url = link.getAttribute('href');
+            const url = link.getAttribute("href");
             history.pushState(null, null, url);
             router();
         });
@@ -27,6 +27,6 @@ function router() {
     if (routeHandler) {
         routeHandler(queryParams);
     } else {
-        console.log('404 Error: Page not found.');
+        console.log("404 Error: Page not found.");
     }
 }

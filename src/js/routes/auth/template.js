@@ -7,7 +7,7 @@ export function show(queryParams) {
 }
 
 function getTemplate() {
-    return /*html*/`
+    return /*html*/ `
         <!-- Login Page -->
         <div class="col-auto mt-5 mb-5 loginContainer">
             <div class="row m-0 mb-3 justify-content-center align-items-center">

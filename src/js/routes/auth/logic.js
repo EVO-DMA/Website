@@ -54,8 +54,8 @@ function alertHandler(success, alerts) {
 
     authAlertsEl.innerHTML = "";
 
-    alerts.forEach(alert => {
-        authAlertsEl.innerHTML += /*html*/`
+    alerts.forEach((alert) => {
+        authAlertsEl.innerHTML += /*html*/ `
             <div>
                 <div class="col-12 mb-2 authAlert ${alertsClass}">${alert}</div>
             </div>
@@ -105,7 +105,7 @@ export function initialize(queryParams) {
     authPasswordEl = document.getElementById("authPassword");
     authNewPasswordEl = document.getElementById("authNewPassword");
     authInviteCodeEl = document.getElementById("authInviteCode");
-    
+
     // Forgot password link
     authShowForgotPasswordEl = document.getElementById("authShowForgotPassword");
 
@@ -114,15 +114,15 @@ export function initialize(queryParams) {
     authLoginEl.addEventListener("click", async () => {
         const result = await httpPost("login", {
             email: authEmailEl.value,
-            password: authPasswordEl.value
+            password: authPasswordEl.value,
         });
 
         alertHandler(result.success, result.message);
 
-        if (!result.success) { // Login was not successful
-
-        } else { // Login was successful
-
+        if (!result.success) {
+            // Login was not successful
+        } else {
+            // Login was successful
         }
     });
 
@@ -133,15 +133,15 @@ export function initialize(queryParams) {
             username: authUsernameEl.value,
             email: authEmailEl.value,
             password: authPasswordEl.value,
-            invite: authInviteCodeEl.value
+            invite: authInviteCodeEl.value,
         });
 
         alertHandler(result.success, result.message);
 
-        if (!result.success) { // Login was not successful
-            
-        } else { // Login was successful
-
+        if (!result.success) {
+            // Login was not successful
+        } else {
+            // Login was successful
         }
     });
 
@@ -149,15 +149,15 @@ export function initialize(queryParams) {
     authShowForgotPasswordEl.addEventListener("click", showForgotPassword);
     authSendForgotPasswordEmailEl.addEventListener("click", async () => {
         const result = await httpPost("forgot-password", {
-            email: authEmailEl.value
+            email: authEmailEl.value,
         });
 
         alertHandler(result.success, result.message);
 
-        if (!result.success) { // Login was not successful
-
-        } else { // Login was successful
-
+        if (!result.success) {
+            // Login was not successful
+        } else {
+            // Login was successful
         }
     });
 
@@ -166,15 +166,15 @@ export function initialize(queryParams) {
         const result = await httpPost("password-reset", {
             email: authEmailEl.value,
             token: authPasswordResetTokenEl.value,
-            password: authNewPasswordEl.value
+            password: authNewPasswordEl.value,
         });
 
         alertHandler(result.success, result.message);
 
-        if (!result.success) { // Login was not successful
-
-        } else { // Login was successful
-
+        if (!result.success) {
+            // Login was not successful
+        } else {
+            // Login was successful
         }
     });
 
@@ -195,7 +195,6 @@ export function initialize(queryParams) {
             if (email != null) {
                 authEmailEl.value = email;
             }
-
         }
     } else {
         showLogin();
@@ -270,7 +269,7 @@ function showPasswordReset() {
     resetUI();
 
     authFormTitleEl.innerText = "Password Reset";
-    
+
     // Password Reset Token
     setRelativesVisibility("authPasswordResetToken", "show");
 
