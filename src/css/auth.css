@@ -1,9 +1,5 @@
 .loginContainer {
     max-width: 370px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     background-color: #333333;
     padding: 15px;
     border-radius: 10px;
@@ -34,7 +30,7 @@
     border-left-color: #00a0e9;
 }
 
-.form-text.authForgotPassword {
+.form-text.authShowForgotPassword {
     color: #e9002b;
     text-decoration: underline;
     cursor: pointer;

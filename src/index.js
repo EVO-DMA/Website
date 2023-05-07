@@ -1,5 +1,7 @@
 import "./css/index.sass";
 
-import { initialize as initializeAuth } from "./js/auth";
+import { initialize as initializeRouter } from "./js/router";
+import { hide as hideLoader } from "./js/loader";
 
-initializeAuth();
+initializeRouter();
+hideLoader(1000);
