@@ -1,4 +1,5 @@
 import { httpPost } from "../../http";
+import { set as setSessionToken } from "../../sessionManager";
 
 // Elements
 /** @type {HTMLDivElement} */
@@ -117,12 +118,24 @@ export function initialize(queryParams) {
             password: authPasswordEl.value,
         });
 
-        alertHandler(result.success, result.message);
+        const response = result.response;
+        const xhr = result.xhr;
 
-        if (!result.success) {
-            // Login was not successful
-        } else {
-            // Login was successful
+        console.log(response);
+
+        alertHandler(response.success, response.message);
+
+        if (response.success) {
+            // Try to persist the session token
+            try {
+                const sessionToken = xhr.getResponseHeader("session-token");
+
+                if (sessionToken != null && sessionToken.length > 0) {
+                    setSessionToken(sessionToken);
+                }
+            } catch (error) {
+                console.error(`ERROR saving session token: ${error}`);
+            }
         }
     });
 
@@ -136,12 +149,12 @@ export function initialize(queryParams) {
             invite: authInviteCodeEl.value,
         });
 
-        alertHandler(result.success, result.message);
+        const response = result.response;
 
-        if (!result.success) {
-            // Login was not successful
-        } else {
-            // Login was successful
+        alertHandler(response.success, response.message);
+
+        if (response.success) {
+
         }
     });
 
@@ -152,12 +165,12 @@ export function initialize(queryParams) {
             email: authEmailEl.value,
         });
 
-        alertHandler(result.success, result.message);
+        const response = result.response;
 
-        if (!result.success) {
-            // Login was not successful
-        } else {
-            // Login was successful
+        alertHandler(response.success, response.message);
+
+        if (response.success) {
+            
         }
     });
 
@@ -169,12 +182,12 @@ export function initialize(queryParams) {
             password: authNewPasswordEl.value,
         });
 
-        alertHandler(result.success, result.message);
+        const response = result.response;
 
-        if (!result.success) {
-            // Login was not successful
-        } else {
-            // Login was successful
+        alertHandler(response.success, response.message);
+
+        if (response.success) {
+            
         }
     });
 

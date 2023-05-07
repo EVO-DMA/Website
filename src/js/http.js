@@ -1,19 +1,33 @@
 import globals from "./globals";
+import { sessionToken } from "./sessionManager";
 
-export function httpPost(endpoint, body, sessionToken = null) {
+/**
+ * @typedef {object} defaultApiResponse
+ * @property {boolean} success Whether or not the API request was executed successfully.
+ * @property {string[]} message An array of messages related to the API request.
+ */
+
+/**
+ * @typedef {object} httpPostOutput
+ * @property {XMLHttpRequest} xhr The raw XHR object.
+ * @property {defaultApiResponse} response The API response.
+ */
+
+/**
+ * Perform an HTTP POST request to the given endpoint with the given body.
+ * @param {string} endpoint
+ * @param {object} body
+ * @param {boolean?} authenticated
+ * @returns {Promise<httpPostOutput>}
+ */
+export function httpPost(endpoint, body, authenticated = false) {
     return new Promise((resolve) => {
         const xhr = new XMLHttpRequest();
         xhr.withCredentials = false;
 
         xhr.addEventListener("readystatechange", () => {
             if (xhr.readyState === 4) {
-                const sessionToken = xhr.getResponseHeader("session-token");
-
-                // localStorage.setItem("session-token", sessionToken);
-
-                console.log(sessionToken);
-
-                resolve(JSON.parse(xhr.responseText));
+                resolve({ xhr: xhr, response: JSON.parse(xhr.responseText) });
             }
         });
 
@@ -22,7 +36,7 @@ export function httpPost(endpoint, body, sessionToken = null) {
         });
 
         xhr.open("POST", `${globals.url}/${endpoint}`);
-        if (sessionToken !== null) xhr.setRequestHeader("Session-Token", sessionToken);
+        if (authenticated) xhr.setRequestHeader("Session-Token", sessionToken);
         xhr.setRequestHeader("Content-Type", "application/json");
 
         xhr.send(JSON.stringify(body));
