@@ -16,10 +16,12 @@
     "@fortawesome/pro-regular-svg-icons": "^6.3.0",
     "@fortawesome/pro-solid-svg-icons": "^6.3.0",
     "@fortawesome/sharp-solid-svg-icons": "^6.3.0",
+    "@sentry/browser": "^7.51.0",
+    "@sentry/tracing": "^7.51.0",
     "@sweetalert2/theme-dark": "^5.0.15",
     "bootstrap": "^5.2.3",
     "overlayscrollbars": "^2.1.0",
-    "sweetalert2": "^11.7.3"
+    "sweetalert2": "^11.7.5"
   },
   "devDependencies": {
     "ansi-colors": "^4.1.3",

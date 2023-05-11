@@ -1,5 +1,6 @@
 import { httpPost } from "../../http";
 import { set as setSessionToken } from "../../sessionManager";
+import { showAlert } from "../../alert";
 
 // Elements
 /** @type {HTMLDivElement} */
@@ -12,6 +13,8 @@ let authAlertsEl;
 let authResetPasswordEl;
 /** @type {HTMLButtonElement} */
 let authSendForgotPasswordEmailEl;
+/** @type {HTMLButtonElement} */
+let authActivateAccountEl;
 /** @type {HTMLButtonElement} */
 let authShowLoginEl;
 /** @type {HTMLButtonElement} */
@@ -28,6 +31,8 @@ let authUsernameEl;
 let authEmailEl;
 /** @type {HTMLInputElement} */
 let authPasswordResetTokenEl;
+/** @type {HTMLInputElement} */
+let authAccountActivationTokenEl;
 /** @type {HTMLInputElement} */
 let authPasswordEl;
 /** @type {HTMLInputElement} */
@@ -94,6 +99,7 @@ export function initialize(queryParams) {
     // Buttons
     authResetPasswordEl = document.getElementById("authResetPassword");
     authSendForgotPasswordEmailEl = document.getElementById("authSendForgotPasswordEmail");
+    authActivateAccountEl = document.getElementById("authActivateAccount");
     authShowLoginEl = document.getElementById("authShowLogin");
     authLoginEl = document.getElementById("authLogin");
     authShowRegistrationEl = document.getElementById("authShowRegistration");
@@ -103,6 +109,7 @@ export function initialize(queryParams) {
     authUsernameEl = document.getElementById("authUsername");
     authEmailEl = document.getElementById("authEmail");
     authPasswordResetTokenEl = document.getElementById("authPasswordResetToken");
+    authAccountActivationTokenEl = document.getElementById("authAccountActivationToken");
     authPasswordEl = document.getElementById("authPassword");
     authNewPasswordEl = document.getElementById("authNewPassword");
     authInviteCodeEl = document.getElementById("authInviteCode");
@@ -120,8 +127,6 @@ export function initialize(queryParams) {
 
         const response = result.response;
         const xhr = result.xhr;
-
-        console.log(response);
 
         alertHandler(response.success, response.message);
 
@@ -154,7 +159,51 @@ export function initialize(queryParams) {
         alertHandler(response.success, response.message);
 
         if (response.success) {
+            showAlert(
+                "success",
+                "Registration",
+                /*html*/`Your account has been created! Please check your inbox at ${authEmailEl.value} for instructions on activating your account.<br>NOTE: It may take 5-10 minutes for the email to arrive.`,
+                false,
+                false,
+                "Show Login",
+                "",
+                "",
+                (result) => {
+                    if (result) {
+                        showLogin();
+                    }
+                }
+            );
+        }
+    });
 
+    // Account Activation
+    authActivateAccountEl.addEventListener("click", async () => {
+        const result = await httpPost("activate-account", {
+            email: authEmailEl.value,
+            token: authAccountActivationTokenEl.value
+        });
+
+        const response = result.response;
+
+        alertHandler(response.success, response.message);
+
+        if (response.success) {
+            showAlert(
+                "success",
+                "Account Activation",
+                "Your account has been activated! You may now login.",
+                false,
+                false,
+                "Show Login",
+                "",
+                "",
+                (result) => {
+                    if (result) {
+                        showLogin();
+                    }
+                }
+            );
         }
     });
 
@@ -187,7 +236,21 @@ export function initialize(queryParams) {
         alertHandler(response.success, response.message);
 
         if (response.success) {
-            
+            showAlert(
+                "success",
+                "Password Reset",
+                "Your password has been reset successfully! You may now login with your new password.",
+                false,
+                false,
+                "Show Login",
+                "",
+                "",
+                (result) => {
+                    if (result) {
+                        showLogin();
+                    }
+                }
+            );
         }
     });
 
@@ -201,6 +264,20 @@ export function initialize(queryParams) {
             const token = queryParams["token"];
             if (token != null) {
                 authPasswordResetTokenEl.value = token;
+            }
+
+            // Try to populate email
+            const email = queryParams["email"];
+            if (email != null) {
+                authEmailEl.value = email;
+            }
+        } else if (urlAction === "account-activation") {
+            showAccountActivation();
+
+            // Try to populate token
+            const token = queryParams["token"];
+            if (token != null) {
+                authAccountActivationTokenEl.value = token;
             }
 
             // Try to populate email
@@ -256,6 +333,25 @@ function showRegistration() {
 
     // Buttons
     setRelativesVisibility("authRegister", "show");
+    setRelativesVisibility("authShowLogin", "show");
+}
+
+/**
+ * Show the account activation form.
+ */
+function showAccountActivation() {
+    resetUI();
+
+    authFormTitleEl.innerText = "Account Activation";
+
+    // Account Activation Token
+    setRelativesVisibility("authAccountActivationToken", "show");
+
+    // Email
+    setRelativesVisibility("authEmail", "show");
+
+    // Buttons
+    setRelativesVisibility("authActivateAccount", "show");
     setRelativesVisibility("authShowLogin", "show");
 }
 
@@ -320,6 +416,9 @@ function resetUI() {
     // Password Reset Token
     setRelativesVisibility("authPasswordResetToken", "hide");
 
+    // Account Activation Token
+    setRelativesVisibility("authAccountActivationToken", "hide");
+
     // Email
     setRelativesVisibility("authEmail", "hide");
 
@@ -334,6 +433,8 @@ function resetUI() {
     setRelativesVisibility("authInviteCode", "hide");
 
     // Buttons
+    // Activate Account
+    setRelativesVisibility("authActivateAccount", "hide");
     // Reset Password
     setRelativesVisibility("authResetPassword", "hide");
     // Send Email

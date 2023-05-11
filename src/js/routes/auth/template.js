@@ -42,6 +42,14 @@ function getTemplate() {
                 </div>
             </div>
 
+            <!-- Account Activation Token -->
+            <div class="row m-0 mb-3 justify-content-center align-items-center authAccountActivationToken" style="display: none">
+                <div class="col">
+                    <label for="authAccountActivationToken" class="form-label">Token</label>
+                    <input type="text" class="form-control" id="authAccountActivationToken" />
+                </div>
+            </div>
+
             <!-- Email -->
             <div class="row m-0 mb-3 justify-content-center align-items-center authEmail" style="display: none">
                 <div class="col">
@@ -77,6 +85,7 @@ function getTemplate() {
 
             <div class="row m-0 mb-3 justify-content-center align-items-center">
                 <div class="col-auto">
+                    <button class="btn btn-primary authActivateAccount" id="authActivateAccount" style="display: none">Activate Account</button>
                     <button class="btn btn-primary authResetPassword" id="authResetPassword" style="display: none">Reset Password</button>
                     <button class="btn btn-primary authSendForgotPasswordEmail" id="authSendForgotPasswordEmail" style="display: none">Send Email</button>
                     <button class="btn btn-primary authLogin" id="authLogin" style="display: none">Login</button>
