@@ -1,7 +1,7 @@
 import { showAlert } from "./alert";
 import globals from "./globals";
-import { sessionToken, set as setSessionToken } from "./sessionManager";
 import { handleRoute } from "./router";
+import { sessionToken, set as setSessionToken } from "./sessionManager";
 
 /**
  * @typedef {object} defaultApiResponse
@@ -27,7 +27,7 @@ export function httpPost(endpoint, body, authenticated = false) {
         try {
             const xhr = new XMLHttpRequest();
             xhr.withCredentials = false;
-    
+
             xhr.addEventListener("readystatechange", () => {
                 if (xhr.readyState === 4) {
                     resolve({ xhr: xhr, response: JSON.parse(xhr.responseText) });
@@ -37,27 +37,20 @@ export function httpPost(endpoint, body, authenticated = false) {
                     setSessionToken("");
                     history.pushState(null, "", "/auth");
                     handleRoute();
-                    showAlert(
-                        "info",
-                        "Access Denied",
-                        "Invalid session, please login.",
-                        false,
-                        false,
-                        "Dismiss"
-                    );
+                    showAlert("info", "Access Denied", "Invalid session, please login.", false, false, "Dismiss");
                 }
             });
-    
+
             xhr.addEventListener("timeout", () => {
                 // TODO: Show failure alert
             });
-    
+
             xhr.open("POST", `${globals.url}/${endpoint}`);
             if (authenticated) xhr.setRequestHeader("Session-Token", sessionToken);
             xhr.setRequestHeader("Content-Type", "application/json");
-    
+
             xhr.send(JSON.stringify(body));
-    
+
             xhr.timeout = 6000;
         } catch (err) {
             console.error(`httpPost() ERROR: ${err}`);

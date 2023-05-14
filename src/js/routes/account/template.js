@@ -1,6 +1,6 @@
-import { initialize as initializeLogic } from "./logic";
-import { header as getHeader, attachEvents as attachHeaderEvents } from "../../templates/header";
+import { attachEvents as attachHeaderEvents, header as getHeader } from "../../templates/header";
 import { AccountData } from "../auth/accountDataManager";
+import { initialize as initializeLogic } from "./logic";
 
 export function show(queryParams) {
     if (AccountData == null) return;

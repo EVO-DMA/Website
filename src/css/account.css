@@ -5,7 +5,7 @@
     background-color: #333333;
     padding: 15px;
     border-radius: 10px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
     border: 2px solid #444444;
     overflow: hidden;
 }
@@ -40,7 +40,7 @@
 .accountTab {
     font-size: 20px;
     padding: 5px 10px;
-    background: linear-gradient(90deg, rgb(33,33,33) 0%, rgba(0, 0, 0, 0) 100%);
+    background: linear-gradient(90deg, rgb(33, 33, 33) 0%, rgba(0, 0, 0, 0) 100%);
     cursor: pointer;
 }
 

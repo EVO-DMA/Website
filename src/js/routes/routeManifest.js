@@ -3,5 +3,5 @@ import { show as showAuth } from "./auth/template";
 
 export const routeManifest = {
     "/auth": showAuth,
-    "/account": showAccount
+    "/account": showAccount,
 };

@@ -32,7 +32,7 @@ export function getTemplate() {
 }
 
 function getReferralProgramCards() {
-    return /*html*/`
+    return /*html*/ `
         <!-- Referrals -->
         <div class="col-auto p-0 me-3 accountStatsCard">
             <div class="row m-0 justify-content-center align-items-center accountStatsCardTitle">
@@ -55,7 +55,7 @@ function getReferralProgramCards() {
 }
 
 function getReferralProgramCTA() {
-    return /*html*/`
+    return /*html*/ `
         <!-- Referrals CTA -->
         <div class="row m-0 mb-5 justify-content-center align-items-center">
             <h3 class="text-center">Looking to make some extra cash?</h3>

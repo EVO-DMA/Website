@@ -1,7 +1,7 @@
 import { AccountData } from "../../auth/accountDataManager";
 
 export function getTemplate() {
-    return /*html*/`
+    return /*html*/ `
         <div class="row m-0 mb-3 justify-content-center align-items-center">
             <h3 class="text-center">Account Info</h3>
         </div>
@@ -42,9 +42,9 @@ function getDiscord() {
         subtext = "Set your Discord by entering it here.";
     }
 
-    return /*html*/`
+    return /*html*/ `
         <label for="accountInfo_DiscordID" class="form-label">Discord</label>
-        <input type="text" class="form-control" id="accountInfo_DiscordID" value="${Discord_ID || ""}" ${(Discord_ID == null) ? "" : "disabled" } />
+        <input type="text" class="form-control" id="accountInfo_DiscordID" value="${Discord_ID || ""}" ${Discord_ID == null ? "" : "disabled"} />
         <div class="form-text">${subtext}</div>
     `;
 }

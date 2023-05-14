@@ -1,6 +1,6 @@
+import { getTemplate as getAccountInfoTemplate } from "./tabs/accountInfo";
 import { getTemplate as getOverviewTemplate } from "./tabs/overview";
 import { getTemplate as getReferralProgramTemplate } from "./tabs/referralProgram";
-import { getTemplate as getAccountInfoTemplate } from "./tabs/accountInfo";
 
 /** @type {HTMLDivElement} */
 let accountContainerMainEl;

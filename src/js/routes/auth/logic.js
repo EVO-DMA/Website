@@ -1,7 +1,7 @@
-import { httpPost } from "../../http";
-import { set as setSessionToken } from "../../sessionManager";
 import { showAlert } from "../../alert";
+import { httpPost } from "../../http";
 import { handleRoute } from "../../router";
+import { set as setSessionToken } from "../../sessionManager";
 
 // Elements
 /** @type {HTMLDivElement} */
@@ -165,7 +165,7 @@ export function initialize(queryParams) {
             showAlert(
                 "success",
                 "Registration",
-                /*html*/`Your account has been created! Please check your inbox at ${authEmailEl.value} for instructions on activating your account.<br>NOTE: It may take 5-10 minutes for the email to arrive.`,
+                /*html*/ `Your account has been created! Please check your inbox at ${authEmailEl.value} for instructions on activating your account.<br>NOTE: It may take 5-10 minutes for the email to arrive.`,
                 false,
                 false,
                 "Show Login",
@@ -184,7 +184,7 @@ export function initialize(queryParams) {
     authActivateAccountEl.addEventListener("click", async () => {
         const result = await httpPost("activate-account", {
             email: authEmailEl.value,
-            token: authAccountActivationTokenEl.value
+            token: authAccountActivationTokenEl.value,
         });
 
         const response = result.response;
@@ -192,21 +192,11 @@ export function initialize(queryParams) {
         alertHandler(response.success, response.message);
 
         if (response.success) {
-            showAlert(
-                "success",
-                "Account Activation",
-                "Your account has been activated! You may now login.",
-                false,
-                false,
-                "Show Login",
-                "",
-                "",
-                (result) => {
-                    if (result) {
-                        showLogin();
-                    }
+            showAlert("success", "Account Activation", "Your account has been activated! You may now login.", false, false, "Show Login", "", "", (result) => {
+                if (result) {
+                    showLogin();
                 }
-            );
+            });
         }
     });
 
@@ -222,7 +212,6 @@ export function initialize(queryParams) {
         alertHandler(response.success, response.message);
 
         if (response.success) {
-            
         }
     });
 

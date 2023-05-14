@@ -1,9 +1,9 @@
 /* Fix Background artifacts on alert icon */
-.swal2-icon.swal2-success [class^=swal2-success-circular-line][class$=left] {
+.swal2-icon.swal2-success [class^="swal2-success-circular-line"][class$="left"] {
     background-color: transparent !important;
 }
 
-.swal2-icon.swal2-success [class^=swal2-success-circular-line][class$=right] {
+.swal2-icon.swal2-success [class^="swal2-success-circular-line"][class$="right"] {
     background-color: transparent !important;
 }
 

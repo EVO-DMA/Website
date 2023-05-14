@@ -1,14 +1,14 @@
 import { AccountData } from "../../auth/accountDataManager";
 
 export function getTemplate() {
-    return /*html*/`
+    return /*html*/ `
         <!-- If user is not a member of the referral program show the CTA -->
         ${AccountData.account.canInvite === false ? getReferralProgramCTA() : ""}
     `;
 }
 
 function getReferralProgramCTA() {
-    return /*html*/`
+    return /*html*/ `
         <!-- Referrals CTA -->
         <div class="row m-0 justify-content-center align-items-center">
             <h3 class="text-center">Referral Program Details</h3>

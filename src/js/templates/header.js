@@ -6,7 +6,7 @@ import { handleRoute } from "../router";
  * @param {("Store"|"Account")} activePage
  */
 export function header(activePage) {
-    return /*html*/`
+    return /*html*/ `
         <div class="appHeader row m-0">
             <!-- Header Logo -->
             <div class="col-auto h-100">
