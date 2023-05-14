@@ -1,8 +1,8 @@
 import { showAlert } from "../../alert";
 import { httpPost } from "../../http";
+import { hide as hideLoader, show as showLoader } from "../../loader";
 import { handleRoute } from "../../router";
 import { set as setSessionToken } from "../../sessionManager";
-import { show as showLoader, hide as hideLoader } from "../../loader";
 
 // Elements
 /** @type {HTMLDivElement} */
@@ -292,14 +292,7 @@ export async function logout() {
     const response = result.response;
 
     if (!response.success) {
-        showAlert(
-            "error",
-            "Error Logging Out",
-            "An unknown error occurred while attempting to log you out. Please try again later.",
-            false,
-            false,
-            "Dismiss"
-        );
+        showAlert("error", "Error Logging Out", "An unknown error occurred while attempting to log you out. Please try again later.", false, false, "Dismiss");
     } else {
         setSessionToken("");
         history.pushState(null, null, "/auth");
