@@ -1,5 +1,7 @@
+import { showAlert } from "./alert";
 import globals from "./globals";
-import { sessionToken } from "./sessionManager";
+import { sessionToken, set as setSessionToken } from "./sessionManager";
+import { handleRoute } from "./router";
 
 /**
  * @typedef {object} defaultApiResponse
@@ -22,25 +24,43 @@ import { sessionToken } from "./sessionManager";
  */
 export function httpPost(endpoint, body, authenticated = false) {
     return new Promise((resolve) => {
-        const xhr = new XMLHttpRequest();
-        xhr.withCredentials = false;
-
-        xhr.addEventListener("readystatechange", () => {
-            if (xhr.readyState === 4) {
-                resolve({ xhr: xhr, response: JSON.parse(xhr.responseText) });
-            }
-        });
-
-        xhr.addEventListener("timeout", () => {
-            // TODO: Show failure alert
-        });
-
-        xhr.open("POST", `${globals.url}/${endpoint}`);
-        if (authenticated) xhr.setRequestHeader("Session-Token", sessionToken);
-        xhr.setRequestHeader("Content-Type", "application/json");
-
-        xhr.send(JSON.stringify(body));
-
-        xhr.timeout = 6000;
+        try {
+            const xhr = new XMLHttpRequest();
+            xhr.withCredentials = false;
+    
+            xhr.addEventListener("readystatechange", () => {
+                if (xhr.readyState === 4) {
+                    resolve({ xhr: xhr, response: JSON.parse(xhr.responseText) });
+                } else if (xhr.status === 401) {
+                    resolve({ xhr: xhr, response: { success: false, message: "Access denied" } });
+                    // Clear saved session token, show login form, and show an alert explaining the redirect
+                    setSessionToken("");
+                    history.pushState(null, "", "/auth");
+                    handleRoute();
+                    showAlert(
+                        "info",
+                        "Access Denied",
+                        "Invalid session, please login.",
+                        false,
+                        false,
+                        "Dismiss"
+                    );
+                }
+            });
+    
+            xhr.addEventListener("timeout", () => {
+                // TODO: Show failure alert
+            });
+    
+            xhr.open("POST", `${globals.url}/${endpoint}`);
+            if (authenticated) xhr.setRequestHeader("Session-Token", sessionToken);
+            xhr.setRequestHeader("Content-Type", "application/json");
+    
+            xhr.send(JSON.stringify(body));
+    
+            xhr.timeout = 6000;
+        } catch (err) {
+            console.error(`httpPost() ERROR: ${err}`);
+        }
     });
 }

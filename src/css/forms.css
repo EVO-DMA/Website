@@ -14,3 +14,9 @@
     border-color: #444444;
     box-shadow: unset;
 }
+
+.form-control:disabled {
+    background-color: #212121;
+    opacity: 1;
+    cursor: not-allowed;
+}

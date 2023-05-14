@@ -3,7 +3,7 @@
     background-color: #333333;
     padding: 15px;
     border-radius: 10px;
-    box-shadow: 0 5px 10px #000000;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);;
     border: 2px solid #444444;
 }
 
@@ -12,7 +12,7 @@
     height: auto;
     border-radius: 8px;
     overflow: hidden;
-    filter: drop-shadow(0 5px 10px #000000);
+    filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.8));
 }
 
 .authAlert {

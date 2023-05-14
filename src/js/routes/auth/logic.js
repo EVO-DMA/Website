@@ -1,6 +1,7 @@
 import { httpPost } from "../../http";
 import { set as setSessionToken } from "../../sessionManager";
 import { showAlert } from "../../alert";
+import { handleRoute } from "../../router";
 
 // Elements
 /** @type {HTMLDivElement} */
@@ -137,6 +138,8 @@ export function initialize(queryParams) {
 
                 if (sessionToken != null && sessionToken.length > 0) {
                     setSessionToken(sessionToken);
+                    history.pushState(null, null, "/account");
+                    handleRoute();
                 }
             } catch (error) {
                 console.error(`ERROR saving session token: ${error}`);

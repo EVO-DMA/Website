@@ -14,7 +14,6 @@
 .swal2-container.swal2-center {
     background: rgba(0, 0, 0, 0.8) !important;
     backdrop-filter: blur(3px);
-    margin-top: 30px;
 }
 
 .swal2-popup {

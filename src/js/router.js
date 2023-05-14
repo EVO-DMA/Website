@@ -1,21 +1,10 @@
 import { routeManifest } from "./routes/routeManifest";
 
 export function initialize() {
-    window.addEventListener("load", router);
-    window.addEventListener("popstate", router);
-
-    // Listen for clicks on links and update the route
-    document.querySelectorAll("a").forEach((link) => {
-        link.addEventListener("click", (event) => {
-            event.preventDefault();
-            const url = link.getAttribute("href");
-            history.pushState(null, null, url);
-            router();
-        });
-    });
+    window.addEventListener("load", handleRoute);
 }
 
-function router() {
+export function handleRoute() {
     // Get the current URL and parse any query parameters
     const url = new URL(window.location.href);
     const currentUrl = url.pathname;

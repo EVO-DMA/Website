@@ -1,3 +1,5 @@
+import { getAccountData } from "./routes/auth/accountDataManager";
+
 /** @type {string} */
 export let sessionToken = null;
 
@@ -13,6 +15,8 @@ export function set(token) {
 /**
  * Get the saved session token.
  */
-export function get() {
+export async function get() {
     sessionToken = localStorage.getItem("sessionToken");
+
+    await getAccountData();
 }

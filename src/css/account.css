@@ -1,0 +1,96 @@
+.accountContainer {
+    margin-top: 60px !important;
+    min-width: 1000px;
+    max-width: 1000px;
+    background-color: #333333;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);;
+    border: 2px solid #444444;
+    overflow: hidden;
+}
+
+.accountContainerSidebar {
+    width: 256px;
+    border-right: 2px solid #444444;
+    overflow: hidden;
+    box-shadow: 5px 0px 10px rgb(0, 0, 0, 0.6);
+}
+
+.accountProfilePicture {
+    width: 256px;
+    height: 256px;
+}
+
+.accountUsername {
+    font-size: 24px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.18) 0%, rgba(0, 0, 0, 0) 100%);
+    border-top: 2px solid #444444;
+    border-bottom: 2px solid #444444;
+}
+
+.username-text {
+    color: #adceae;
+    text-shadow: 0px 0px 4px #227822;
+    text-align: center;
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.accountTab {
+    font-size: 20px;
+    padding: 5px 10px;
+    background: linear-gradient(90deg, rgb(33,33,33) 0%, rgba(0, 0, 0, 0) 100%);
+    cursor: pointer;
+}
+
+.accountTab:hover {
+    background: linear-gradient(90deg, rgb(0, 160, 233) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.accountTabActive {
+    background: linear-gradient(90deg, rgb(0, 160, 233) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.accountTab:not(:last-child) {
+    border-bottom: 1px solid #444444;
+}
+
+.accountContainerMain {
+    padding: 20px;
+}
+
+.accountStatsCard {
+    background-color: #212121;
+    border-radius: 10px;
+    border: 2px solid #444444;
+    overflow: hidden;
+    box-shadow: 0 5px 10px rgb(0, 0, 0, 0.6);
+}
+
+.accountStatsCardTitle {
+    font-size: 20px;
+    background-color: #333333;
+    padding: 5px 10px;
+}
+
+.accountStatsCardValue {
+    font-size: 28px;
+}
+
+.referralProgramDescription {
+    line-height: 1.4;
+}
+
+.ctaLearnMore {
+    color: #00a0e9;
+    padding: 5px;
+    border-bottom: 1px solid #00a0e9;
+    transition: 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.ctaLearnMore:hover {
+    color: #ffffff;
+    background-color: #00a0e9;
+}

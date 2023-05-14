@@ -11,6 +11,15 @@ import "./css/index.sass";
 
 import { hide as hideLoader } from "./js/loader";
 import { initialize as initializeRouter } from "./js/router";
+import { get as getSessionToken } from "./js/sessionManager";
 
-initializeRouter();
-hideLoader(1000);
+(async () => {
+    await getSessionToken();
+    initializeRouter();
+    hideLoader(1000);
+})();
+
+// Lazy load fontawesome
+import("@fortawesome/fontawesome-pro/js/fontawesome").then(() => {
+    import("@fortawesome/fontawesome-pro/js/solid");
+});

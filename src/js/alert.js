@@ -24,6 +24,7 @@ export function showAlert(type, title, text, showCancelButton, showDenyButton, c
             allowOutsideClick: false,
             allowEnterKey: false,
             preConfirm: preConfirm,
+            heightAuto: false,
             showClass: {
                 backdrop: "swal2-noanimation",
                 popup: "",
