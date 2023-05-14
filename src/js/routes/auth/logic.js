@@ -2,6 +2,7 @@ import { showAlert } from "../../alert";
 import { httpPost } from "../../http";
 import { handleRoute } from "../../router";
 import { set as setSessionToken } from "../../sessionManager";
+import { show as showLoader, hide as hideLoader } from "../../loader";
 
 // Elements
 /** @type {HTMLDivElement} */
@@ -121,6 +122,7 @@ export function initialize(queryParams) {
     // Login
     authShowLoginEl.addEventListener("click", showLogin);
     authLoginEl.addEventListener("click", async () => {
+        showLoader("Logging in");
         const result = await httpPost("login", {
             email: authEmailEl.value,
             password: authPasswordEl.value,
@@ -137,7 +139,7 @@ export function initialize(queryParams) {
                 const sessionToken = xhr.getResponseHeader("session-token");
 
                 if (sessionToken != null && sessionToken.length > 0) {
-                    setSessionToken(sessionToken);
+                    await setSessionToken(sessionToken, true);
                     history.pushState(null, null, "/account");
                     handleRoute();
                 }
@@ -145,6 +147,8 @@ export function initialize(queryParams) {
                 console.error(`ERROR saving session token: ${error}`);
             }
         }
+
+        hideLoader(300);
     });
 
     // Registration
@@ -280,6 +284,27 @@ export function initialize(queryParams) {
         }
     } else {
         showLogin();
+    }
+}
+
+export async function logout() {
+    const result = await httpPost("logout", {}, true);
+    const response = result.response;
+
+    if (!response.success) {
+        showAlert(
+            "error",
+            "Error Logging Out",
+            "An unknown error occurred while attempting to log you out. Please try again later.",
+            false,
+            false,
+            "Dismiss"
+        );
+    } else {
+        setSessionToken("");
+        history.pushState(null, null, "/auth");
+        handleRoute();
+        alertHandler(response.success, response.message);
     }
 }
 

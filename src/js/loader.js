@@ -17,9 +17,9 @@ export function show(text) {
     clearTimeout(loaderTimeout);
     loaderTextEl.innerText = text;
     loaderContainerEl.style.display = "";
-    setImmediate(() => {
+    setTimeout(() => {
         loaderContainerEl.classList.add("loaderContainerShown");
-    });
+    }, 0);
 }
 
 /**

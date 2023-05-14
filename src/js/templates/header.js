@@ -1,5 +1,6 @@
 import headerLogo from "../../img/favicon.svg";
 import { handleRoute } from "../router";
+import { logout } from "../routes/auth/logic";
 
 /**
  * Get the page header template.
@@ -27,6 +28,9 @@ export function header(activePage) {
                     <div class="row col-auto justify-content-end align-items-center m-0 headerNav ${activePage === "Account" ? "headerNavActive" : ""}" id="headerNav_Account">
                         <div class="col-auto headerNavInner"><i class="fa-solid fa-user-cowboy me-2 buttonIcon"></i>Account</div>
                     </div>
+                    <div class="row col-auto justify-content-end align-items-center m-0 headerNav" id="headerNav_Logout">
+                        <div class="col-auto headerNavInner"><i class="fa-solid fa-right-from-bracket me-2 buttonIcon"></i>Logout</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -36,6 +40,7 @@ export function header(activePage) {
 export function attachEvents() {
     const headerNav_StoreEl = document.getElementById("headerNav_Store");
     const headerNav_AccountEl = document.getElementById("headerNav_Account");
+    const headerNav_LogoutEl = document.getElementById("headerNav_Logout");
 
     headerNav_StoreEl.addEventListener("click", () => {
         history.pushState(null, "", "/store");
@@ -45,5 +50,9 @@ export function attachEvents() {
     headerNav_AccountEl.addEventListener("click", () => {
         history.pushState(null, "", "/account");
         handleRoute();
+    });
+
+    headerNav_LogoutEl.addEventListener("click", () => {
+        logout();
     });
 }

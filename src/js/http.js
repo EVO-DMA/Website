@@ -35,9 +35,14 @@ export function httpPost(endpoint, body, authenticated = false) {
                     resolve({ xhr: xhr, response: { success: false, message: "Access denied" } });
                     // Clear saved session token, show login form, and show an alert explaining the redirect
                     setSessionToken("");
-                    history.pushState(null, "", "/auth");
-                    handleRoute();
-                    showAlert("info", "Access Denied", "Invalid session, please login.", false, false, "Dismiss");
+
+                    const url = new URL(window.location.href);
+                    const currentUrl = url.pathname;
+                    if (currentUrl !== "/auth") {
+                        history.pushState(null, "", "/auth");
+                        handleRoute();
+                        showAlert("info", "Access Denied", "Invalid session, please login.", false, false, "Dismiss");
+                    }
                 }
             });
 

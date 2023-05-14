@@ -14,7 +14,7 @@ import { initialize as initializeRouter } from "./js/router";
 import { get as getSessionToken } from "./js/sessionManager";
 
 (async () => {
-    await getSessionToken();
+    await getSessionToken(true);
     initializeRouter();
     hideLoader(1000);
 })();
