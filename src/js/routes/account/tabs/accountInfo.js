@@ -36,7 +36,7 @@ export function getTemplate() {
 }
 
 function getDiscord() {
-    const Discord_ID = AccountData.user.Discord_ID;
+    const Discord_ID = AccountData.user.Discord;
     let subtext = "Open a ticket to change your Discord.";
     if (Discord_ID == null) {
         subtext = "Set your Discord by entering it here.";

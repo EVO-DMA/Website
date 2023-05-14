@@ -3,7 +3,7 @@ import { httpPost } from "../../http";
 /**
  * @typedef {object} AccountData
  * @property {object} user
- * @property {string?} user.Discord_ID
+ * @property {string?} user.Discord
  * @property {string} user.Avatar
  * @property {string} user.Username
  * @property {string} user.Email
