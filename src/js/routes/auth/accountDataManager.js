@@ -21,6 +21,5 @@ export async function getAccountData() {
     const response = result.response;
     if (response.success) {
         AccountData = response.message;
-        console.log(AccountData);
     }
 }

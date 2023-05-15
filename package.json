@@ -14,6 +14,7 @@
     "@sentry/tracing": "^7.51.2",
     "@sweetalert2/theme-dark": "^5.0.15",
     "bootstrap": "^5.2.3",
+    "markdown-it": "^13.0.1",
     "overlayscrollbars": "^2.1.1",
     "sweetalert2": "^11.7.5"
   },

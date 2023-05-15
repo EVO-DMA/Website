@@ -1,0 +1,148 @@
+.storeItemsContainer {
+    margin-top: 60px !important;
+    min-width: 1000px;
+    max-width: 1000px;
+    background-color: #333333;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
+    border: 2px solid #444444;
+    overflow: hidden;
+}
+
+.storeItem {
+    cursor: pointer;
+    padding: 12px;
+}
+
+.storeItem:hover {
+    background: linear-gradient(90deg, rgb(33, 33, 33) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.storeItem:not(:last-child) {
+    border-bottom: 1px solid #444444;
+}
+
+.storeItemIcon {
+    width: 64px;
+    height: 64px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.storeItemName {
+    font-size: 28px;
+}
+
+.storeItemDescriptionBlurb {
+    color: #999999;
+}
+
+.storeItemStatusBadge {
+    border-radius: 10px;
+    padding: 5px 10px;
+    border: 2px solid;
+}
+
+.storeItemStatusBadge_Hidden {
+    background-color: #5c5c5c;
+    border-color: #444444;
+}
+
+.storeItemStatusBadge_Available {
+    background-color: #009d32;
+    border-color: #006a21;
+}
+
+.storeItemStatusBadge_Unavailable {
+    background-color: #e9002b;
+    border-color: #b50021;
+}
+
+.storeItemStatusBadge_Updating {
+    background-color: #00a0e9;
+    border-color: #007cb5;
+}
+
+.storeItemStatusBadge_Private {
+    background-color: #009d32;
+    border-color: #006a21;
+}
+
+.storeViewItemContainer {
+    margin-top: 60px !important;
+    min-width: 1000px;
+    max-width: 1400px;
+}
+
+.storeItemMainImage {
+    max-height: 600px;
+    border-radius: 10px;
+    overflow: hidden;
+    filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.8));
+}
+
+.storeViewItemMain {
+    padding: 12px;
+    background-color: #333333;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
+    border: 2px solid #444444;
+    overflow: hidden;
+}
+
+.storeViewItemImages {
+    height: 150px;
+    background-color: #212121;
+    border-radius: 10px;
+    border: 2px solid #444444;
+}
+
+.storeViewItemImage {
+    border-radius: 10px;
+    overflow: hidden;
+    max-height: 130px;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.8));
+    cursor: pointer;
+}
+
+.storeViewItemImage:hover {
+    filter: brightness(0.5);
+}
+
+.storeItemDescription {
+    line-height: 1.4;
+}
+
+.storeItemDescription p:last-of-type {
+    margin-bottom: unset;
+}
+
+.storeItemTabsContainer {
+    background-color: #212121;
+    border-radius: 10px;
+    border: 2px solid #444444;
+    overflow: hidden;
+}
+
+.storeItemTabSelectorOuter {
+    border-bottom: 2px solid #444444;
+}
+
+.storeItemTabSelector {
+    padding: 10px !important;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.storeItemTabSelector:hover {
+    background: radial-gradient(circle, rgb(0, 160, 233) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.storeItemTabSelectorActive {
+    background: radial-gradient(circle, rgb(0, 160, 233) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.storeItemSelectedTabContent {
+    max-height: 30vh;
+    overflow: auto;
+}
