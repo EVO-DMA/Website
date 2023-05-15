@@ -1,6 +1,7 @@
 import { attachEvents as attachHeaderEvents, header as getHeader } from "../../templates/header";
 import { httpPost } from "../../http";
 import * as MarkdownIt from "markdown-it";
+import { showImageViewer } from "./imageViewer";
 
 const MD = new MarkdownIt();
 
@@ -211,6 +212,12 @@ function attachProductEvents() {
 
             document.getElementById("baseContainer").innerHTML = HTML;
             attachHeaderEvents();
+
+            Array.from(document.getElementsByClassName("storeViewItemImage")).forEach((element, i) => {
+                element.addEventListener("click", () => {
+                    showImageViewer(product.Images, i);
+                });
+            });
         });
     });
 }

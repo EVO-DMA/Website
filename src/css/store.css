@@ -91,6 +91,7 @@
 }
 
 .storeViewItemImages {
+    overflow: hidden;
     height: 150px;
     background-color: #212121;
     border-radius: 10px;
