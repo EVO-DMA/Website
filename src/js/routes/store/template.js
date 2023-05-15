@@ -1,6 +1,6 @@
-import { attachEvents as attachHeaderEvents, header as getHeader } from "../../templates/header";
-import { httpPost } from "../../http";
 import * as MarkdownIt from "markdown-it";
+import { httpPost } from "../../http";
+import { attachEvents as attachHeaderEvents, header as getHeader } from "../../templates/header";
 import { showImageViewer } from "./imageViewer";
 
 const MD = new MarkdownIt();
@@ -53,7 +53,7 @@ function getProductByID(ID) {
 
     for (let i = 0; i < products.length; i++) {
         const product = products[i];
-        
+
         if (product.ID === ID) {
             output = product;
             break;
@@ -65,11 +65,11 @@ function getProductByID(ID) {
 
 function getTemplate() {
     const storeItems = [];
-    products.forEach(product => {
+    products.forEach((product) => {
         storeItems.push(createProduct(product));
     });
 
-    return /*html*/`
+    return /*html*/ `
         ${getHeader("Store")}
 
         <div class="row m-0 p-0 justify-content-center align-items-center storeItemsContainer">
@@ -82,7 +82,7 @@ function getTemplate() {
  * @param {Product} ProductInfo
  */
 function createProduct(ProductInfo) {
-    return /*html*/`
+    return /*html*/ `
         <div class="row m-0 justify-content-center align-items-center storeItem" id="${ProductInfo.ID}">
             <!-- Icon -->
             <div class="col-auto">
@@ -113,7 +113,7 @@ function createProduct(ProductInfo) {
  * @param {Product} ProductInfo
  */
 function viewProduct(ProductInfo) {
-    return /*html*/`
+    return /*html*/ `
         <div class="row m-0 justify-content-center align-items-center storeViewItemContainer">
             <!-- Main Image -->
             <div class="col-4">
@@ -173,7 +173,7 @@ function viewProduct(ProductInfo) {
  */
 function createProductImages(Images) {
     const getBase = (Image) => {
-        return /*html*/`
+        return /*html*/ `
             <div class="col-auto">
                 <img src="${Image}" class="p-0 storeViewItemImage" />
             </div>
@@ -196,7 +196,7 @@ function createProductImages(Images) {
 function attachProductEvents() {
     /** @type {HTMLDivElement[]} */
     const storeItems = document.getElementsByClassName("storeItem");
-    Array.from(storeItems).forEach(storeItem => {
+    Array.from(storeItems).forEach((storeItem) => {
         storeItem.addEventListener("click", () => {
             const product = getProductByID(storeItem.id);
 
@@ -205,7 +205,7 @@ function attachProductEvents() {
                 return;
             }
 
-            const HTML = /*html*/`
+            const HTML = /*html*/ `
                 ${getHeader("Store")}
                 ${viewProduct(product)}
             `;

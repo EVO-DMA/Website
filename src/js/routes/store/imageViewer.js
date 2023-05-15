@@ -9,7 +9,7 @@ export function showImageViewer(images, startIndex) {
 }
 
 function hideImageViewer() {
-    Array.from(document.getElementsByClassName("imageViewerContainer")).forEach(imageViewer => {
+    Array.from(document.getElementsByClassName("imageViewerContainer")).forEach((imageViewer) => {
         imageViewer.outerHTML = "";
     });
 }
@@ -22,13 +22,13 @@ function generateHTML(images, startIndex) {
     const imagesHTML = [];
     images.forEach((image, i) => {
         if (i === startIndex) {
-            imagesHTML.push(/*html*/`
+            imagesHTML.push(/*html*/ `
                 <div class="col-auto p-0 imageViewerImageContainer">
                     <img src="${image}" class="p-0 imageViewerImage" />
                 </div>
             `);
         } else {
-            imagesHTML.push(/*html*/`
+            imagesHTML.push(/*html*/ `
                 <div class="col-auto p-0 imageViewerImageContainer" style="display: none;">
                     <img src="${image}" class="p-0 imageViewerImage" />
                 </div>
@@ -36,7 +36,7 @@ function generateHTML(images, startIndex) {
         }
     });
 
-    return /*html*/`
+    return /*html*/ `
         <div class="row m-0 justify-content-center align-items-center imageViewerContainer prevent-select">
             <div class="col-auto p-0 imageViewerCloseButton" id="imageViewerCloseButton">
                 <i class="fa-solid fa-xmark"></i>
