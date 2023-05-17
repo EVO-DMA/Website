@@ -2,6 +2,7 @@ import * as MarkdownIt from "markdown-it";
 import { httpPost } from "../../http";
 import { attachEvents as attachHeaderEvents, header as getHeader } from "../../templates/header";
 import { showImageViewer } from "./imageViewer";
+import { handleRoute } from "../../router";
 
 const MD = new MarkdownIt();
 
@@ -14,6 +15,7 @@ const MD = new MarkdownIt();
  * @property {string} Main_Image The CDN link to the product's main image.
  * @property {string[]} Images An array of CDN links to the product's promotional images.
  * @property {string} Description The description (markdown) of this product.
+ * @property {string} Features The features (markdown) of this product.
  * @property {string} Blurb The blurb of this product.
  * @property {number} Price_7_Day The 7-day price of this product.
  * @property {number} Price_30_Day The 30-day price of this product.
@@ -25,8 +27,6 @@ const MD = new MarkdownIt();
 
 /** @type {Product[]?} */
 let products = null;
-/** @type {string?} */
-let viewedProduct = null;
 
 export async function show(queryParams) {
     // Try to get account details
@@ -48,7 +48,7 @@ export async function show(queryParams) {
  * Get a product by it's ID.
  * @param {string} ID
  */
-function getProductByID(ID) {
+export function getProductByID(ID) {
     let output = null;
 
     for (let i = 0; i < products.length; i++) {
@@ -138,11 +138,12 @@ function viewProduct(ProductInfo) {
                     <div class="row m-0 mt-3 storeItemTabsContainer">
                         <!-- Description/Features Toggle -->
                         <div class="row m-0 storeItemTabSelectorOuter">
-                            <div class="col-auto me-3 p-0 storeItemTabSelector storeItemTabSelectorActive"><i class="fa-solid fa-quote-right me-2"></i>Description</div>
-                            <div class="col-auto p-0 storeItemTabSelector"><i class="fa-solid fa-list-ul me-2"></i>Features</div>
+                            <div class="col-auto me-3 p-0 storeItemTabSelector storeItemTabSelectorActive" id="storeItemTabSelector_Description"><i class="fa-solid fa-quote-right me-2"></i>Description</div>
+                            <div class="col-auto p-0 storeItemTabSelector" id="storeItemTabSelector_Features"><i class="fa-solid fa-list-ul me-2"></i>Features</div>
                         </div>
                         <div class="row m-0 p-3 storeItemSelectedTabContent">
-                            <div class="col-auto p-0 storeItemDescription">${MD.render(ProductInfo.Description)}</div>
+                            <div class="col-auto p-0 storeItemDescription" id="storeItemTabContent_Description">${MD.render(ProductInfo.Description)}</div>
+                            <div class="col-auto p-0 storeItemDescription" id="storeItemTabContent_Features" style="display: none;">${MD.render(ProductInfo.Features)}</div>
                         </div>
                     </div>
                 </div>
@@ -151,14 +152,14 @@ function viewProduct(ProductInfo) {
                     <div class="form-text mb-2">All subscriptions grant access to the Subscribers Only area of our Discord.</div>
                     <div class="row m-0">
                         <div class="col p-0">
-                            <select class="form-select" id="SubscriptionTerms_${ProductInfo.ID}">
+                            <select class="form-select" id="SubscriptionTermDropdown">
                                 <option value="7">7 DAYS - $${ProductInfo.Price_7_Day}</option>
                                 <option value="30" selected>30 DAYS - $${ProductInfo.Price_30_Day}</option>
                                 <option value="90">90 DAYS - $${ProductInfo.Price_90_Day}</option>
                             </select>
                         </div>
                         <div class="col-auto pe-0">
-                            <button class="btn btn-primary" id="Purchase_${ProductInfo.ID}">Purchase Now</button>
+                            <button class="btn btn-primary" id="PurchaseNowButton">Purchase Now</button>
                         </div>
                     </div>
                 </div>
@@ -217,6 +218,34 @@ function attachProductEvents() {
                 element.addEventListener("click", () => {
                     showImageViewer(product.Images, i);
                 });
+            });
+
+            const storeItemTabSelector_DescriptionEl = document.getElementById("storeItemTabSelector_Description");
+            const storeItemTabSelector_FeaturesEl = document.getElementById("storeItemTabSelector_Features");
+
+            const storeItemTabContent_FeaturesEl = document.getElementById("storeItemTabContent_Features");
+            const storeItemTabContent_DescriptionEl = document.getElementById("storeItemTabContent_Description");
+
+            storeItemTabSelector_DescriptionEl.addEventListener("click", () => {
+                storeItemTabSelector_FeaturesEl.classList.remove("storeItemTabSelectorActive");
+                storeItemTabSelector_DescriptionEl.classList.add("storeItemTabSelectorActive");
+
+                storeItemTabContent_FeaturesEl.style.display = "none";
+                storeItemTabContent_DescriptionEl.style.display = "";
+            });
+
+            storeItemTabSelector_FeaturesEl.addEventListener("click", () => {
+                storeItemTabSelector_DescriptionEl.classList.remove("storeItemTabSelectorActive");
+                storeItemTabSelector_FeaturesEl.classList.add("storeItemTabSelectorActive");
+
+                storeItemTabContent_DescriptionEl.style.display = "none";
+                storeItemTabContent_FeaturesEl.style.display = "";
+            });
+
+            document.getElementById("PurchaseNowButton").addEventListener("click", () => {
+                const term = document.getElementById("SubscriptionTermDropdown").value.split(" ")[0];
+                history.pushState(null, "", `/checkout?ProductID=${product.ID}&SubscriptionTerm=${term}`);
+                handleRoute();
             });
         });
     });
