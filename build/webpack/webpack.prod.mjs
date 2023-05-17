@@ -17,11 +17,6 @@ const version = JSON.parse(fs.readFileSync(path.join(proj_root, "package.json"))
 
 const gitRevision = execSync("git rev-parse HEAD").toString().trim();
 
-let environment;
-
-if (version.includes("a")) environment = "staging";
-else environment = "production";
-
 /** @type {import("webpack").Configuration} */
 const webpack_prod = {
     mode: "production",
@@ -60,9 +55,9 @@ const webpack_prod = {
             cache: true,
             inject: true,
             favicons: {
-                appName: "Tarkov Changes",
-                appDescription: "Tarkov Changes Website",
-                developerName: "Tarkov Changes Team",
+                appName: "EVO DMA",
+                appDescription: "EVO DMA Website",
+                developerName: "EVO DMA",
                 developerURL: null,
                 version: version,
                 logging: true,
