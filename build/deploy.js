@@ -56,7 +56,7 @@ if (host == null || port == null || username == null || privateKey == null || pa
  * @returns {Promise<void>}
  */
 function initSSH(privateKey) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         ssh = new sshClient();
         ssh.on("ready", () => {
             resolve();
@@ -65,7 +65,7 @@ function initSSH(privateKey) {
             port: Number(port),
             username: username,
             privateKey: privateKey,
-            passphrase: passphrase
+            passphrase: passphrase,
         });
     });
 }
@@ -75,7 +75,7 @@ function initSSH(privateKey) {
  * @returns {Promise<void>}
  */
 async function sshExec(command) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         ssh.exec(command, (err, stream) => {
             if (err) throw err;
 
@@ -89,16 +89,19 @@ async function sshExec(command) {
                 console.log(string);
             };
 
-            stream.on("close", (code, signal) => {
-                if (outputBuffer.length === 0) console.log(`(${command}) ==== NO OUTPUT [${code}] ====\n`);
-                else console.log(`(${command}) ==== END [${code}] ====\n`);
+            stream
+                .on("close", (code, signal) => {
+                    if (outputBuffer.length === 0) console.log(`(${command}) ==== NO OUTPUT [${code}] ====\n`);
+                    else console.log(`(${command}) ==== END [${code}] ====\n`);
 
-                resolve();
-            }).on("data", (data) => {
-                handleOutput(data.toString());
-            }).stderr.on("data", (data) => {
-                handleOutput(data.toString());
-            });
+                    resolve();
+                })
+                .on("data", (data) => {
+                    handleOutput(data.toString());
+                })
+                .stderr.on("data", (data) => {
+                    handleOutput(data.toString());
+                });
         });
     });
 }
@@ -113,7 +116,7 @@ async function initSFTP(privateKey) {
         port: Number(port),
         username: username,
         privateKey: privateKey,
-        passphrase: passphrase
+        passphrase: passphrase,
     });
 }
 
@@ -143,13 +146,13 @@ async function copyNginxConfigs() {
         const destination = `${remoteDest}${file}`;
 
         console.log(`${getENV()} Copying NGINX config ${file} from local "${source}" to remote "${destination}"...`);
-        
+
         await sftp.put(source, destination, {
             writeStreamOptions: {
                 flags: "w",
                 encoding: null,
-                mode: 0o666
-            }
+                mode: 0o666,
+            },
         });
     }
 
