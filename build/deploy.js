@@ -46,6 +46,7 @@ if (host == null || port == null || username == null || privateKey == null || pa
 
     await copyNginxConfigs();
     await deployWeb();
+    await fixWebPermissions();
 
     await sftp.end();
     ssh.end();
@@ -178,4 +179,14 @@ async function deployWeb() {
 
     const result = await sftp.uploadDir(source, destination);
     console.log(result);
+}
+
+/**
+ * Sets proper permissions and ownership on all files/folders in and below `/var/www`.
+ */
+async function fixWebPermissions() {
+    console.log("Fixing web permissions and ownership...");
+    
+    await sshExec("find /var/www -type d -exec chmod 755 {}; && sudo find /var/www -type f -exec chmod 644 {};");
+    await sshExec("chown -R www-data /var/www");
 }
