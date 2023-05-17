@@ -117,9 +117,22 @@ async function initSFTP(privateKey) {
     });
 }
 
+/**
+ * Returns a custom formatted environment string.
+ */
+function getENV() {
+    return `[ENV:${environment.toUpperCase()}]`;
+}
+
+/**
+ * Copies all NGINX configs from the root `nginx` folder to the remote `conf.d` folder and restarts NGINX.
+ */
 async function copyNginxConfigs() {
     const remoteDest = "/etc/nginx/conf.d/";
     const nginxDir = path.join(__dirname, "../nginx");
+
+    console.log(`${getENV()} Emptying ${remoteDest}...`);
+    await sshExec(`rm -rf ${remoteDest}*`);
 
     const files = await fs.readdir(nginxDir);
 
@@ -129,7 +142,7 @@ async function copyNginxConfigs() {
         const source = path.join(nginxDir, file);
         const destination = `${remoteDest}${file}`;
 
-        console.log(`Copying NGINX config ${file} from local "${source}" to remote "${destination}"...`);
+        console.log(`${getENV()} Copying NGINX config ${file} from local "${source}" to remote "${destination}"...`);
         
         await sftp.put(source, destination, {
             writeStreamOptions: {
@@ -140,11 +153,14 @@ async function copyNginxConfigs() {
         });
     }
 
-    console.log("Restarting NGINX...");
+    console.log("Checking new configs & restarting NGINX...");
     await sshExec("nginx -t");
     await sshExec("systemctl restart nginx");
 }
 
+/**
+ * Copies all files from the root `dist` folder to the remote web directory (served by NGINX) respective of the configured environment.
+ */
 async function deployWeb() {
     const source = path.join(__dirname, "../dist");
 
@@ -152,10 +168,10 @@ async function deployWeb() {
     if (environment === "prod") destination += "evodma.com";
     else if (environment === "dev") destination += "dev-web.evodma.com";
 
-    console.log(`[ENV:${environment.toUpperCase()}] Emptying "${destination}"...`);
+    console.log(`${getENV()} Emptying "${destination}"...`);
     await sshExec(`rm -rf ${destination}/*`);
 
-    console.log(`[ENV:${environment.toUpperCase()}] Deploying "${source}" to "${destination}"...`);
+    console.log(`${getENV()} Deploying "${source}" to "${destination}"...`);
 
     const result = await sftp.uploadDir(source, destination);
     console.log(result);
