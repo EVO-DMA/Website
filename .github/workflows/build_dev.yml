@@ -21,10 +21,10 @@ jobs:
     - name: Install Dependencies
       run: yarn install --frozen-lockfile
 
-    - name: Build UI
+    - name: Build
       run: yarn build
 
-    - name: Install Dependencies
+    - name: Deploy
       env:
         HOST: ${{ secrets.HOST }}
         PORT: ${{ secrets.PORT }}
