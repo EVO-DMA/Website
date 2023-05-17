@@ -7,5 +7,5 @@ export const routeManifest = {
     "/auth": showAuth,
     "/account": showAccount,
     "/store": showStore,
-    "/checkout": showCheckout
+    "/checkout": showCheckout,
 };

@@ -1,8 +1,8 @@
 import * as MarkdownIt from "markdown-it";
 import { httpPost } from "../../http";
+import { handleRoute } from "../../router";
 import { attachEvents as attachHeaderEvents, header as getHeader } from "../../templates/header";
 import { showImageViewer } from "./imageViewer";
-import { handleRoute } from "../../router";
 
 const MD = new MarkdownIt();
 

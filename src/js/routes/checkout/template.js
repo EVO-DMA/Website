@@ -36,7 +36,7 @@ function getTemplate() {
 export function createProductMarkup() {
     const price = checkoutProduct[`Price_${SubscriptionTerm}_Day`];
 
-    return /*html*/`
+    return /*html*/ `
         <div class="col-auto">
             <img src="${checkoutProduct.Icon}" class="p-0 checkoutItemIcon" />
         </div>
@@ -61,7 +61,7 @@ export function createProductMarkup() {
 export function createPurchaseButtonMarkup() {
     const price = checkoutProduct[`Price_${SubscriptionTerm}_Day`];
 
-    return /*html*/`
+    return /*html*/ `
         <button class="btn btn-secondary" id="PurchaseNowButton">Pay $${price} Now</button>
     `;
 }
@@ -69,5 +69,5 @@ export function createPurchaseButtonMarkup() {
 export function showError(message) {
     const checkoutErrorsContainerEl = document.getElementById("checkoutErrorsContainer");
     checkoutErrorsContainerEl.style.display = "";
-    checkoutErrorsContainerEl.innerHTML = /*html*/`<div class="col checkoutError">${message}</div>`;
+    checkoutErrorsContainerEl.innerHTML = /*html*/ `<div class="col checkoutError">${message}</div>`;
 }

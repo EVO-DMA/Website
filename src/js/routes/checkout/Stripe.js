@@ -1,8 +1,8 @@
 import { loadStripe } from "@stripe/stripe-js";
-import globals from "../../globals";
 import { showAlert } from "../../alert";
-import { showError } from "./template";
+import globals from "../../globals";
 import { handleRoute } from "../../router";
+import { showError } from "./template";
 
 /** @type {import("@stripe/stripe-js").Stripe} */
 let stripe = null;
@@ -32,7 +32,7 @@ export function createPaymentElement(clientSecret) {
                 colorDanger: "#e9002b",
                 colorDangerText: "#e9002b",
                 colorBackgroundText: "#444444",
-            }
+            },
         },
     });
 
@@ -75,7 +75,7 @@ export async function confirmPayment() {
         elements: elements,
         confirmParams: {
             return_url: location.href,
-        }
+        },
     });
 
     // This point will only be reached if there is an immediate error when confirming the payment.

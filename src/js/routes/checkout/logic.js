@@ -1,9 +1,9 @@
 import { showAlert } from "../../alert";
 import { httpPost } from "../../http";
+import { hide as hideLoader, show as showLoader } from "../../loader";
 import { handleRoute } from "../../router";
 import { confirmPayment, createPaymentElement, retrievePaymentIntent } from "./Stripe";
 import { createProductMarkup, createPurchaseButtonMarkup } from "./template";
-import { show as showLoader, hide as hideLoader } from "../../loader";
 
 /** @type {import("../store/template.js").Product} */
 export let checkoutProduct = null;
@@ -41,10 +41,14 @@ export async function initialize(queryParams) {
         SubscriptionTerm = Number(SubscriptionTerm);
 
         // Try to create a payment intent
-        const paymentIntentResult = await httpPost("create-payment-intent", {
-            productID: ProductID,
-            subscriptionTerm: SubscriptionTerm
-        }, true);
+        const paymentIntentResult = await httpPost(
+            "create-payment-intent",
+            {
+                productID: ProductID,
+                subscriptionTerm: SubscriptionTerm,
+            },
+            true
+        );
         const paymentIntentResponse = paymentIntentResult.response;
         if (!paymentIntentResponse.success) {
             showAlert("error", "Checkout Error", "Error creating Payment Intent. Please try again later.", false, false, "Show Store", "", "", () => {
@@ -55,9 +59,13 @@ export async function initialize(queryParams) {
         }
 
         // Try to get the product details
-        const getProductResult = await httpPost("get-product-by-id", {
-            productID: ProductID
-        }, true);
+        const getProductResult = await httpPost(
+            "get-product-by-id",
+            {
+                productID: ProductID,
+            },
+            true
+        );
         const getProductResponse = getProductResult.response;
         if (!getProductResponse.success) {
             showAlert("error", "Checkout Error", "Error getting Product Details. Please try again later.", false, false, "Show Store", "", "", () => {
@@ -69,9 +77,9 @@ export async function initialize(queryParams) {
         checkoutProduct = getProductResponse.message;
         // Inject product markup
         document.getElementById("checkoutProduct").innerHTML = createProductMarkup();
-        
+
         createPaymentElement(paymentIntentResponse.message.clientSecret);
-        
+
         // Inject purchase button
         document.getElementById("purchaseButton").innerHTML = createPurchaseButtonMarkup();
 
