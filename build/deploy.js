@@ -16,9 +16,13 @@ if (environment == null || environment === "") {
     process.exit(1);
 }
 
-/** The mode of configuration. 1 = arguments, 2 = environment vars. */
+/**
+ * The mode of configuration. 1 = arguments, 2 = environment vars.
+ * @type {(1|2)}
+ */
 let workingMode = 1;
 
+// If any of the args were nullish, get sftp/ssh from environment variables
 if (host == null || port == null || username == null || privateKey == null || passphrase == null) {
     host = process.env.HOST;
     port = process.env.PORT;
