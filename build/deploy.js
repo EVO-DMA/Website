@@ -186,7 +186,7 @@ async function deployWeb() {
  */
 async function fixWebPermissions() {
     console.log("Fixing web permissions and ownership...");
-    
+
     await sshExec("find /var/www -type d -exec chmod 755 {} \\; && find /var/www -type f -exec chmod 644 {} \\;");
     await sshExec("chown -R www-data /var/www");
 }
