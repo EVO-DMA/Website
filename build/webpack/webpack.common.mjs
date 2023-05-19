@@ -49,10 +49,6 @@ const webpack_common = {
                 type: "asset/inline",
                 exclude: /(fonts)/,
             },
-            {
-                test: /\.md/,
-                type: "asset/inline",
-            },
         ],
     },
     plugins: [new HtmlWebpackPlugin(HtmlWebpackPluginConfig), new MiniCssExtractPlugin(MiniCssExtractPluginConfig)],
