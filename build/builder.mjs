@@ -22,8 +22,8 @@ if (command !== "dev" && command !== "prod") {
     log.info(`[PRE-BUILD] ${log.info("Clearing dist directory...", false)}`);
     fse.emptyDirSync(path.join(__dirname, "../dist"));
 
-    function buildFrontend() {
-        log.info(`[BUILD] ${log.info("Building frontend...", false)}`);
+    function buildWebsite() {
+        log.info(`[BUILD] ${log.info("Building Website...", false)}`);
 
         return new Promise(async (resolve, reject) => {
             if (command === "dev") {
@@ -46,16 +46,16 @@ if (command !== "dev" && command !== "prod") {
                         } else {
                             log.error(`[WEBPACK ERROR] ${log.warning(err, false)}`);
                         }
-                        reject(log.success(`[WEBPACK ERROR] ${log.info("Unable to build frontend!", false)}`, false));
+                        reject(log.success(`[WEBPACK ERROR] ${log.info("Unable to build Website!", false)}`, false));
                     } else {
-                        resolve(log.success(`[BUILD] ${log.info("Successfully built frontend!", false)}`, false));
+                        resolve(log.success(`[BUILD] ${log.info("Successfully built Website!", false)}`, false));
                     }
                 });
             }
         });
     }
 
-    await buildFrontend()
+    await buildWebsite()
         .catch((onrejected) => {
             console.log(onrejected);
         })

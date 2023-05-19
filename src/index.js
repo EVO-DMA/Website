@@ -19,7 +19,7 @@ import { get as getSessionToken } from "./js/sessionManager";
     hideLoader(1000);
 })();
 
-// Lazy load fontawesome
+// Lazy load Font Awesome
 import("@fortawesome/fontawesome-pro/js/fontawesome").then(() => {
     import("@fortawesome/fontawesome-pro/js/solid");
 });

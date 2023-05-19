@@ -1,7 +1,7 @@
 import { routeManifest } from "./routes/routeManifest";
 
 export function initialize() {
-    window.addEventListener("load", handleRoute);
+    handleRoute();
 }
 
 export function handleRoute() {

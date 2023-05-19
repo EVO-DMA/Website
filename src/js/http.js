@@ -50,7 +50,7 @@ export function httpPost(endpoint, body, authenticated = false) {
                 // TODO: Show failure alert
             });
 
-            xhr.open("POST", `${globals.url}/${endpoint}`);
+            xhr.open("POST", `${globals.apiURL}/${endpoint}`);
             if (authenticated) xhr.setRequestHeader("Session-Token", sessionToken);
             xhr.setRequestHeader("Content-Type", "application/json");
 
