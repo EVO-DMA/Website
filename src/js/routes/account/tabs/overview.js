@@ -1,4 +1,4 @@
-import { AccountData } from "../../auth/accountDataManager";
+import { AccountData, PurchaseData } from "../../auth/accountDataManager";
 
 export function getTemplate() {
     return /*html*/ `
@@ -13,7 +13,7 @@ export function getTemplate() {
                     <div class="col-auto">Orders</div>
                 </div>
                 <div class="row m-0 mt-2 mb-2 justify-content-center align-items-center accountStatsCardValue">
-                    <div class="col-auto">0</div>
+                    <div class="col-auto">${PurchaseData.orders.length}</div>
                 </div>
             </div>
             <!-- Subscriptions -->
@@ -22,7 +22,7 @@ export function getTemplate() {
                     <div class="col-auto">Subscriptions</div>
                 </div>
                 <div class="row m-0 mt-2 mb-2 justify-content-center align-items-center accountStatsCardValue">
-                    <div class="col-auto">0</div>
+                    <div class="col-auto">${PurchaseData.activeSubscriptions}</div>
                 </div>
             </div>
             <!-- If user is a member of the referral program show stats -->

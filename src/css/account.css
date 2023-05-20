@@ -94,3 +94,10 @@
     color: #ffffff;
     background-color: #00a0e9;
 }
+
+.accountTable {
+    --bs-table-bg: #333333;
+    --bs-table-border-color: #212121;
+    --bs-table-striped-bg: #444444;
+    border-color: #212121;
+}

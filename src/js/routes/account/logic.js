@@ -1,6 +1,8 @@
 import { getTemplate as getAccountInfoTemplate } from "./tabs/accountInfo";
 import { getTemplate as getOverviewTemplate } from "./tabs/overview";
 import { getTemplate as getReferralProgramTemplate } from "./tabs/referralProgram";
+import { getTemplate as getOrdersTemplate } from "./tabs/orders";
+import { getTemplate as getSubscriptionsTemplate } from "./tabs/subscriptions";
 
 /** @type {HTMLDivElement} */
 let accountContainerMainEl;
@@ -55,7 +57,7 @@ function showSubscriptions() {
     accountTab_subscriptionsEl.classList.add("accountTabActive");
 
     // Show tab content
-    accountContainerMainEl.innerHTML = getOverviewTemplate(true);
+    accountContainerMainEl.innerHTML = getSubscriptionsTemplate();
 }
 
 function showOrders() {
@@ -65,7 +67,7 @@ function showOrders() {
     accountTab_ordersEl.classList.add("accountTabActive");
 
     // Show tab content
-    accountContainerMainEl.innerHTML = getOverviewTemplate();
+    accountContainerMainEl.innerHTML = getOrdersTemplate();
 }
 
 function showReferralProgram() {
