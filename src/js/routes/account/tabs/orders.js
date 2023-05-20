@@ -1,7 +1,7 @@
 import { PurchaseData } from "../../auth/accountDataManager";
 
 export function getTemplate() {
-    return /*html*/`
+    return /*html*/ `
         <div class="row m-0 justify-content-center align-items-center">
             <table class="table table-dark table-striped text-center accountTable">
                 <thead>
@@ -24,8 +24,8 @@ function generateOrdersMarkup() {
 
     const HTML = [];
 
-    orders.forEach(order => {
-        HTML.push(/*html*/`
+    orders.forEach((order) => {
+        HTML.push(/*html*/ `
             <tr>
                 <td>${order.ID}</td>
                 <td>${order.Date.toUpperCase()}</td>

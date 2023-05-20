@@ -65,10 +65,10 @@ async function getPurchaseData() {
         PurchaseData = response.message;
 
         const subscriptions = PurchaseData.subscriptions;
-        
+
         // Get active subscription count
         let activeSubscriptionCount = 0;
-        subscriptions.forEach(subscription => {
+        subscriptions.forEach((subscription) => {
             if (subscription.Active) activeSubscriptionCount++;
         });
         PurchaseData.activeSubscriptions = activeSubscriptionCount;

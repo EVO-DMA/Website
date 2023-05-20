@@ -1,7 +1,7 @@
 import { getTemplate as getAccountInfoTemplate } from "./tabs/accountInfo";
+import { getTemplate as getOrdersTemplate } from "./tabs/orders";
 import { getTemplate as getOverviewTemplate } from "./tabs/overview";
 import { getTemplate as getReferralProgramTemplate } from "./tabs/referralProgram";
-import { getTemplate as getOrdersTemplate } from "./tabs/orders";
 import { getTemplate as getSubscriptionsTemplate } from "./tabs/subscriptions";
 
 /** @type {HTMLDivElement} */
