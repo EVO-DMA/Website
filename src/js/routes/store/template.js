@@ -17,6 +17,7 @@ const MD = new MarkdownIt();
  * @property {string} Description The description (markdown) of this product.
  * @property {string} Features The features (markdown) of this product.
  * @property {string} Blurb The blurb of this product.
+ * @property {number} Price_1_Day The 1-day price of this product.
  * @property {number} Price_7_Day The 7-day price of this product.
  * @property {number} Price_30_Day The 30-day price of this product.
  * @property {number} Price_90_Day The 90-day price of this product.
@@ -153,6 +154,7 @@ function viewProduct(ProductInfo) {
                     <div class="row m-0">
                         <div class="col p-0">
                             <select class="form-select" id="SubscriptionTermDropdown">
+                                <option value="1">1 DAY - $${ProductInfo.Price_1_Day}</option>
                                 <option value="7">7 DAYS - $${ProductInfo.Price_7_Day}</option>
                                 <option value="30" selected>30 DAYS - $${ProductInfo.Price_30_Day}</option>
                                 <option value="90">90 DAYS - $${ProductInfo.Price_90_Day}</option>
