@@ -6,7 +6,7 @@ body {
     background-color: #212121;
     color: #ffffff;
     text-shadow: 0 2px 3px #000000;
-    font-family: "Neo Sans Std";
+    font-family: "Encode Sans", sans-serif;
     font-size: 18px;
     font-weight: normal;
     width: 100vw;
@@ -25,4 +25,9 @@ body {
     -webkit-user-select: none; /* Safari */
     -ms-user-select: none; /* IE 10 and IE 11 */
     user-select: none; /* Standard syntax */
+}
+
+::placeholder {
+    color: #808080 !important;
+    opacity: 1 !important;
 }

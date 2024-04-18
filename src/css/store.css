@@ -1,5 +1,6 @@
 .storeItemsContainer {
-    margin-top: 60px !important;
+    margin-top: 120px !important;
+    margin-bottom: 60px !important;
     min-width: 1000px;
     max-width: 1000px;
     background-color: #333333;
@@ -69,7 +70,8 @@
 }
 
 .storeViewItemContainer {
-    margin-top: 60px !important;
+    margin-top: 120px !important;
+    margin-bottom: 60px !important;
     min-width: 1000px;
     max-width: 1400px;
 }

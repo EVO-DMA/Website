@@ -1,5 +1,5 @@
 .loginContainer {
-    max-width: 390px;
+    max-width: 420px;
     background-color: #333333;
     padding: 15px;
     border-radius: 10px;
@@ -34,4 +34,55 @@
     color: #e9002b;
     text-decoration: underline;
     cursor: pointer;
+}
+
+.passwordInput {
+    border-radius: 10px 0 0 10px;
+}
+
+.passwordVisibilityButton {
+    padding: 8px;
+    background-color: #212121;
+    border-radius: 0 10px 10px 0;
+    border-left: unset;
+    text-align: center;
+    width: 39.5px;
+    height: 37px;
+    cursor: pointer;
+}
+
+.passwordVisibilityButton:hover {
+    opacity: 0.5;
+}
+
+/* Password Strength */
+.passwordStrengthText_0 {
+    color: #e9002b;
+}
+
+.passwordStrengthText_1 {
+    color: #ffa500;
+}
+
+.passwordStrengthText_2 {
+    color: #ffff00;
+}
+
+.passwordStrengthText_3 {
+    color: #009d32;
+}
+
+.passwordStrengthCriteria {
+    padding: 5px 10px;
+    background-color: #212121;
+    border-radius: 10px;
+    border: 1px solid #444444;
+}
+
+.passwordStrengthCriteria_notMet {
+    color: #e9002b;
+}
+
+.passwordStrengthCriteria_met {
+    color: #009d32;
 }

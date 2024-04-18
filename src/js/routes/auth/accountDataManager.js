@@ -1,8 +1,21 @@
 import { httpPost } from "../../http";
 
 /**
+ * @typedef {object} InviteCode
+ * @property {string} id
+ * @property {string} name
+ */
+
+/**
+ * @typedef {object} InvitedUser
+ * @property {string} username
+ * @property {string} discord
+ */
+
+/**
  * @typedef {object} AccountData
  * @property {object} user
+ * @property {number} user.uid
  * @property {string?} user.Discord
  * @property {string} user.Avatar
  * @property {string} user.Username
@@ -10,6 +23,11 @@ import { httpPost } from "../../http";
  * @property {object} account
  * @property {("administrator"|"customer")} account.type
  * @property {boolean} account.canInvite
+ * @property {InviteCode[]} account.inviteCodes
+ * @property {Object<string,InvitedUser>} account.invitedUsers
+ * @property {number} account.baseDiscount
+ * @property {number} account.globalDiscount
+ * @property {number} account.accountCredit
  */
 
 /**
@@ -58,7 +76,7 @@ export async function getAccountData() {
 }
 
 async function getPurchaseData() {
-    // Try to get account details
+    // Try to get purchase details
     const result = await httpPost("get-purchase-data", {}, true);
     const response = result.response;
     if (response.success) {

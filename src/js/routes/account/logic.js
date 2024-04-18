@@ -47,7 +47,8 @@ function showOverview() {
     accountContainerMainEl.innerHTML = getOverviewTemplate(false);
 
     // Attach events to tab content
-    document.getElementById("referralProgramLearnMore").addEventListener("click", showReferralProgram);
+    const referralProgramLearnMore = document.getElementById("referralProgramLearnMore");
+    if (referralProgramLearnMore != null) referralProgramLearnMore.addEventListener("click", showReferralProgram);
 }
 
 function showSubscriptions() {

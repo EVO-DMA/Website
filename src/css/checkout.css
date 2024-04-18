@@ -1,5 +1,6 @@
 .checkoutContainer {
-    margin-top: 60px !important;
+    margin-top: 120px !important;
+    margin-bottom: 60px !important;
     min-width: 1000px;
     max-width: 1000px;
     background-color: #333333;
@@ -26,8 +27,74 @@
     overflow: hidden;
 }
 
+.checkoutDiscountTotal {
+    color: #009d32;
+}
+
 .checkoutPriceTotal {
     border-top: 1px solid #444444;
+}
+
+.checkoutEarnedRewardsTotal {
+    color: gold;
+}
+
+.checkout-form-control {
+    background-color: #212121;
+    border-radius: 10px;
+    border: 1px solid #373737;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5), 0px 1px 6px rgba(0, 0, 0, 0.25);
+    padding: 0.75rem;
+    color: #ffffff;
+}
+
+.checkout-form-control:focus {
+    border-color: hsla(139, 100%, 31%, 40%);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5), 0px 1px 6px rgba(0, 0, 0, 0.25), 0 0 0 3px hsla(139, 100%, 31%, 25%), 0 1px 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.paymentProviderCardOuter:last-child {
+    padding: 0 0 0 5px;
+}
+
+.paymentProviderCardOuter {
+    padding: 0 5px 0 0;
+}
+
+.paymentProviderCardOuterSingle {
+    padding: 0 5px 0 0;
+}
+
+.paymentProviderCard {
+    background-color: #212121;
+    border-radius: 10px;
+    border: 1px solid #373737;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5), 0px 1px 6px rgba(0, 0, 0, 0.25);
+    padding: 0.75rem;
+    font-weight: 600;
+    color: #b3b3b3;
+    font-size: 14px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.paymentProviderCard:hover {
+    color: #009d32;
+}
+
+.paymentProviderCardActive {
+    color: #009d32;
+    border-color: hsla(139, 100%, 31%, 40%);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5), 0px 1px 6px rgba(0, 0, 0, 0.25), 0 0 0 3px hsla(139, 100%, 31%, 25%), 0 1px 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.paymentProviderIcon {
+    font-size: 18px;
+    margin-bottom: 4px !important;
+}
+
+.evoCoinWalletAmount {
+    color: #009d32;
 }
 
 .checkoutErrorsContainer {

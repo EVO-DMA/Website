@@ -22,7 +22,12 @@ function getTemplate() {
                         <img src="data:image/png;base64,${AccountData.user.Avatar}" class="p-0 accountProfilePicture" />
                     </div>
                     <div class="row m-0 pt-2 pb-2 p-0 accountUsername justify-content-center align-items-center">
-                        <span class="username-text">${AccountData.user.Username}</span>
+                        <div class="col-auto pe-0 uid-text">
+                            #${AccountData.user.uid}
+                        </div>
+                        <div class="col text-center username-text">
+                            ${AccountData.user.Username}
+                        </div>
                     </div>
                 </div>
                 <div class="row m-0 accountTabsContainer">

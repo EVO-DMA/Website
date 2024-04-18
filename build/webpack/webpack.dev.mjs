@@ -23,6 +23,7 @@ const webpack_dev = merge(webpack_common, {
     devServer: {
         setupExitSignals: false,
         server: "http",
+        port: 8080,
         compress: true,
         historyApiFallback: {
             disableDotRule: true,

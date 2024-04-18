@@ -1,0 +1,26 @@
+:root {
+    --ss-primary-color: #00a0e9;
+    --ss-font-color: #ffffff;
+}
+
+.ss-content.ss-open-above {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.ss-content.ss-open-below {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.ss-content .ss-list .ss-option.ss-highlighted, .ss-content .ss-list .ss-option:not(.ss-disabled).ss-selected {
+    border-radius: 10px;
+}
+
+.ss-content .ss-list .ss-option:hover {
+    border-radius: 10px;
+}

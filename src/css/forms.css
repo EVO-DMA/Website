@@ -34,7 +34,7 @@
     font-size: 18px;
     border-radius: 10px;
     transition: unset;
-    background-image: url("data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27><path fill=%27none%27 stroke=%27%23ffffff%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%272%27 d=%27m2 5 6 6 6-6%27/></svg>");
+    background-image: unset;
 }
 
 .form-select:focus {

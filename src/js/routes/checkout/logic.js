@@ -40,23 +40,76 @@ export async function initialize(queryParams) {
         }
         SubscriptionTerm = Number(SubscriptionTerm);
 
-        // Try to create a payment intent
-        const paymentIntentResult = await httpPost(
-            "create-payment-intent",
-            {
-                productID: ProductID,
-                subscriptionTerm: SubscriptionTerm,
-            },
-            true
-        );
-        const paymentIntentResponse = paymentIntentResult.response;
-        if (!paymentIntentResponse.success) {
-            showAlert("error", "Checkout Error", "Error creating Payment Intent. Please try again later.", false, false, "Show Store", "", "", () => {
-                history.pushState(null, "", "/store");
-                handleRoute();
-            });
-            return;
+        /**
+         * @param {("card"|"cashapp")} type
+         */
+        const createStripePaymentIntent = async (type) => {
+            showLoader("Switching payment method");
+
+            const paymentIntentResult = await httpPost(
+                "create-payment-intent",
+                {
+                    productID: ProductID,
+                    subscriptionTerm: SubscriptionTerm,
+                    paymentMethod: type
+                },
+                true
+            );
+
+            // Validate response
+            const paymentIntentResponse = paymentIntentResult.response;
+            if (!paymentIntentResponse.success) {
+                showAlert("error", "Checkout Error", "Error creating Payment Intent. Please try again later.", false, false, "Show Store", "", "", () => {
+                    history.pushState(null, "", "/store");
+                    handleRoute();
+                });
+                return;
+            }
+
+            createPaymentElement(paymentIntentResponse.message.clientSecret);
+
+            let friendlyText = "";
+            if (type === "card") friendlyText = "Card";
+            else if (type === "cashapp") friendlyText = "Cash App";
+            document.getElementById("checkout_selectedPaymentMethodTitle").innerText = `${friendlyText} Checkout`;
+
+            hideLoader(300);
         }
+
+        const removeAllPaymentProviderCardClasses = () => {
+            const paymentProviderCards = Array.from(document.getElementsByClassName("paymentProviderCard"));
+            paymentProviderCards.forEach(card => {
+                card.classList.remove("paymentProviderCardActive");
+            });
+        }
+
+        // Card
+        const checkout_paymentProvider_cardEl = document.getElementById("checkout_paymentProvider_card");
+        checkout_paymentProvider_cardEl.addEventListener("click", () => {
+            if (checkout_paymentProvider_cardEl.classList.contains("paymentProviderCardActive")) {
+                return;
+            }
+
+            removeAllPaymentProviderCardClasses();
+
+            checkout_paymentProvider_cardEl.classList.add("paymentProviderCardActive");
+
+            createStripePaymentIntent("card");
+        });
+
+        // Cash App
+        const checkout_paymentProvider_cashappEl = document.getElementById("checkout_paymentProvider_cashapp");
+        checkout_paymentProvider_cashappEl.addEventListener("click", () => {
+            if (checkout_paymentProvider_cashappEl.classList.contains("paymentProviderCardActive")) {
+                return;
+            }
+
+            removeAllPaymentProviderCardClasses();
+
+            checkout_paymentProvider_cashappEl.classList.add("paymentProviderCardActive");
+
+            createStripePaymentIntent("cashapp");
+        });
 
         // Try to get the product details
         const getProductResult = await httpPost(
@@ -75,10 +128,12 @@ export async function initialize(queryParams) {
             return;
         }
         checkoutProduct = getProductResponse.message;
+
         // Inject product markup
         document.getElementById("checkoutProduct").innerHTML = createProductMarkup();
 
-        createPaymentElement(paymentIntentResponse.message.clientSecret);
+        // Load card payment method
+        createStripePaymentIntent("card");
 
         // Inject purchase button
         document.getElementById("purchaseButton").innerHTML = createPurchaseButtonMarkup();

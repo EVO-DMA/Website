@@ -59,19 +59,72 @@ function getTemplate() {
             </div>
 
             <!-- Password -->
-            <div class="row m-0 mb-3 justify-content-center align-items-center authPassword" style="display: none">
+            <div class="row m-0 mb-2 justify-content-center align-items-center authPassword" style="display: none">
                 <div class="col">
                     <label for="authPassword" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="authPassword" />
+                    <div class="row m-0">
+                        <div class="col p-0">
+                            <input type="password" class="form-control passwordInput" id="authPassword" />
+                        </div>
+                        <div class="col-auto p-0">
+                            <div class="form-control passwordVisibilityButton" id="authPassword_visibilityToggle"><i class="fa-duotone fa-eye-slash"></i></div>
+                        </div>
+                    </div>
                     <div class="form-text authShowForgotPassword" id="authShowForgotPassword">Forgot password?</div>
                 </div>
             </div>
 
             <!-- New Password -->
-            <div class="row m-0 mb-3 justify-content-center align-items-center authNewPassword" style="display: none">
+            <div class="row m-0 mb-2 justify-content-center align-items-center authNewPassword" style="display: none">
                 <div class="col">
                     <label for="authNewPassword" class="form-label">New Password</label>
-                    <input type="password" class="form-control" id="authNewPassword" />
+                    <div class="row m-0">
+                        <div class="col p-0">
+                            <input type="password" class="form-control passwordInput" id="authNewPassword" />
+                        </div>
+                        <div class="col-auto p-0">
+                            <div class="form-control passwordVisibilityButton" id="authNewPassword_visibilityToggle"><i class="fa-duotone fa-eye-slash"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Password Strength -->
+            <div class="row m-0 mb-3 justify-content-center align-items-center authPasswordRelated" style="display: none">
+                <div class="row m-0">
+                    <label class="form-label p-0">Strength: <span class="passwordStrengthText_0" id="passwordStrengthText">Too weak</span></label>
+                </div>
+                
+                <!-- Lowercase -->
+                <div class="row m-0 mb-1">
+                    <div class="col passwordStrengthCriteria passwordStrengthCriteria_notMet" id="passwordStrengthCriteria_lowercaseContainer">
+                        <span id="passwordStrengthCriteria_lowercaseIcon"><i class="fa-duotone fa-circle-xmark inlineTextIcon me-1"></i></span>
+                        <span>Lowercase</span>
+                    </div>
+                </div>
+                
+                <!-- Uppercase -->
+                <div class="row m-0 mb-1">
+                    <div class="col passwordStrengthCriteria passwordStrengthCriteria_notMet" id="passwordStrengthCriteria_uppercaseContainer">
+                        <span id="passwordStrengthCriteria_uppercaseIcon"><i class="fa-duotone fa-circle-xmark inlineTextIcon me-1"></i></span>
+                        <span>Uppercase</span>
+                    </div>
+                </div>
+
+                <!-- Number -->
+                <div class="row m-0 mb-1">
+                    <div class="col passwordStrengthCriteria passwordStrengthCriteria_notMet" id="passwordStrengthCriteria_numberContainer">
+                        <span id="passwordStrengthCriteria_numberIcon"><i class="fa-duotone fa-circle-xmark inlineTextIcon me-1"></i></span>
+                        <span>Number</span>
+                    </div>
+                </div>
+
+                <!-- Symbol -->
+                <div class="row m-0">
+                    <div class="col passwordStrengthCriteria passwordStrengthCriteria_notMet" id="passwordStrengthCriteria_symbolContainer">
+                        <span id="passwordStrengthCriteria_symbolIcon"><i class="fa-duotone fa-circle-xmark inlineTextIcon me-1"></i></span>
+                        <span>Symbol</span>
+                    </div>
                 </div>
             </div>
 

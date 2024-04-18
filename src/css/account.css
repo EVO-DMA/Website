@@ -29,12 +29,16 @@
     border-bottom: 2px solid #444444;
 }
 
-.username-text {
-    color: #adceae;
-    text-shadow: 0px 0px 4px #227822;
-    text-align: center;
+.uid-text {
     font-weight: bold;
-    font-size: 24px;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.username-text {
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: bold;
+    font-size: 19px;
 }
 
 .accountTab {

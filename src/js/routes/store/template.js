@@ -1,10 +1,13 @@
-import * as MarkdownIt from "markdown-it";
+import markdownit from "markdown-it";
+import SlimSelect from "slim-select";
 import { httpPost } from "../../http";
 import { handleRoute } from "../../router";
 import { attachEvents as attachHeaderEvents, header as getHeader } from "../../templates/header";
 import { showImageViewer } from "./imageViewer";
+import { toDollarFormat } from "./utils";
 
-const MD = new MarkdownIt();
+const MD = markdownit();
+let SlimSelectInstance = null;
 
 /**
  * Represents a Product of the application.
@@ -17,13 +20,18 @@ const MD = new MarkdownIt();
  * @property {string} Description The description (markdown) of this product.
  * @property {string} Features The features (markdown) of this product.
  * @property {string} Blurb The blurb of this product.
- * @property {number} Price_1_Day The 1-day price of this product.
- * @property {number} Price_7_Day The 7-day price of this product.
- * @property {number} Price_30_Day The 30-day price of this product.
- * @property {number} Price_90_Day The 90-day price of this product.
+ * @property {number} Original_Price_1_Day The 1-day price of this product.
+ * @property {number} Price_1_Day The (potentially discounted) 1-day price of this product.
+ * @property {number} Original_Price_7_Day The 7-day price of this product.
+ * @property {number} Price_7_Day The (potentially discounted) 7-day price of this product.
+ * @property {number} Original_Price_30_Day The 30-day price of this product.
+ * @property {number} Price_30_Day The (potentially discounted) 30-day price of this product.
+ * @property {number} Original_Price_90_Day The 90-day price of this product.
+ * @property {number} Price_90_Day The (potentially discounted) 90-day price of this product.
  * @property {number} Max_Slots If Status is Private, this indicates the max slots of the product.
  * @property {number} Used_Slots If Status is Private, this indicates the used slots of the product.
  * @property {("Hidden"|"Available"|"Unavailable"|"Updating"|"Private")} Status The status of this product.
+ * @property {number} CashBackPercent The percentage amount of cash back this product offers.
  */
 
 /** @type {Product[]?} */
@@ -110,6 +118,8 @@ function createProduct(ProductInfo) {
     `;
 }
 
+
+
 /**
  * @param {Product} ProductInfo
  */
@@ -154,14 +164,14 @@ function viewProduct(ProductInfo) {
                     <div class="row m-0">
                         <div class="col p-0">
                             <select class="form-select" id="SubscriptionTermDropdown">
-                                <option value="1">1 DAY - $${ProductInfo.Price_1_Day}</option>
-                                <option value="7">7 DAYS - $${ProductInfo.Price_7_Day}</option>
-                                <option value="30" selected>30 DAYS - $${ProductInfo.Price_30_Day}</option>
-                                <option value="90">90 DAYS - $${ProductInfo.Price_90_Day}</option>
+                                <option value="1">1 DAY - ${toDollarFormat(ProductInfo.Price_1_Day)}</option>
+                                <option value="7">7 DAYS - ${toDollarFormat(ProductInfo.Price_7_Day)}</option>
+                                <option value="30" selected>30 DAYS - ${toDollarFormat(ProductInfo.Price_30_Day)}</option>
+                                <option value="90">90 DAYS - ${toDollarFormat(ProductInfo.Price_90_Day)}</option>
                             </select>
                         </div>
                         <div class="col-auto pe-0">
-                            <button class="btn btn-primary" id="PurchaseNowButton">Purchase Now</button>
+                            <button class="btn btn-primary" id="PurchaseNowButton">Checkout</button>
                         </div>
                     </div>
                 </div>
@@ -196,6 +206,17 @@ function createProductImages(Images) {
     return HTML.join("");
 }
 
+function attachDropdownEvents() {
+    if (SlimSelectInstance != null) SlimSelectInstance.destroy();
+
+    SlimSelectInstance = new SlimSelect({
+        select: '#SubscriptionTermDropdown',
+        settings: {
+            showSearch: false,
+        }
+    });
+}
+
 function attachProductEvents() {
     /** @type {HTMLDivElement[]} */
     const storeItems = document.getElementsByClassName("storeItem");
@@ -215,6 +236,7 @@ function attachProductEvents() {
 
             document.getElementById("baseContainer").innerHTML = HTML;
             attachHeaderEvents();
+            attachDropdownEvents();
 
             Array.from(document.getElementsByClassName("storeViewItemImage")).forEach((element, i) => {
                 element.addEventListener("click", () => {
