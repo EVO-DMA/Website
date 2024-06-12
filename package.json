@@ -1,6 +1,6 @@
 {
 	"name": "main-ui",
-	"version": "0.0.3-a0",
+	"version": "0.0.3-a1",
 	"main": "index.js",
 	"private": true,
 	"scripts": {
