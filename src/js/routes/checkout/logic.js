@@ -7,17 +7,24 @@ import { createProductMarkup, createPurchaseButtonMarkup } from "./template";
 
 /** @type {import("../store/template.js").Product} */
 export let checkoutProduct = null;
+/** @type {string} */
+export let SubscriptionTermDays = "";
 /** @type {number} */
 export let SubscriptionTerm = null;
 
 export async function initialize(queryParams) {
     const paymentIntentClientSecret = queryParams["payment_intent_client_secret"];
+
     if (paymentIntentClientSecret != null) {
         // Purchase has (possibly) been completed
 
         // Validate query params
         const ProductID = queryParams["ProductID"];
         SubscriptionTerm = Number(queryParams["SubscriptionTerm"]);
+        if (SubscriptionTerm === -1)
+            SubscriptionTermDays = "Lifetime";
+        else
+            SubscriptionTermDays = `${SubscriptionTerm} Day`;
 
         retrievePaymentIntent(paymentIntentClientSecret, ProductID, SubscriptionTerm);
     } else {
@@ -39,6 +46,10 @@ export async function initialize(queryParams) {
             });
         }
         SubscriptionTerm = Number(SubscriptionTerm);
+        if (SubscriptionTerm === -1)
+            SubscriptionTermDays = "Lifetime";
+        else
+            SubscriptionTermDays = `${SubscriptionTerm} Day`;
 
         // Try to create a payment intent
         const paymentIntentResult = await httpPost(
@@ -51,7 +62,7 @@ export async function initialize(queryParams) {
         );
         const paymentIntentResponse = paymentIntentResult.response;
         if (!paymentIntentResponse.success) {
-            showAlert("error", "Checkout Error", "Error creating Payment Intent. Please try again later.", false, false, "Show Store", "", "", () => {
+            showAlert("error", "Checkout Error", paymentIntentResponse.message.join("<hr>"), false, false, "Show Store", "", "", () => {
                 history.pushState(null, "", "/store");
                 handleRoute();
             });

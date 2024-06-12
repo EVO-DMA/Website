@@ -29,7 +29,7 @@ function getTemplate() {
                     <div class="accountTab" id="accountTab_overview">Overview</div>
                     <div class="accountTab" id="accountTab_subscriptions">Subscriptions</div>
                     <div class="accountTab" id="accountTab_orders">Orders</div>
-                    <div class="accountTab" id="accountTab_referralProgram">Referral Program</div>
+                    <!-- <div class="accountTab" id="accountTab_referralProgram">Referral Program</div> -->
                     <div class="accountTab" id="accountTab_accountInfo">Account Info</div>
                 </div>
             </div>

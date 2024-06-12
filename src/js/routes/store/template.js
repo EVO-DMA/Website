@@ -21,6 +21,7 @@ const MD = new MarkdownIt();
  * @property {number} Price_7_Day The 7-day price of this product.
  * @property {number} Price_30_Day The 30-day price of this product.
  * @property {number} Price_90_Day The 90-day price of this product.
+ * @property {number} Price_Lifetime The lifetime price of this product.
  * @property {number} Max_Slots If Status is Private, this indicates the max slots of the product.
  * @property {number} Used_Slots If Status is Private, this indicates the used slots of the product.
  * @property {("Hidden"|"Available"|"Unavailable"|"Updating"|"Private")} Status The status of this product.
@@ -158,6 +159,7 @@ function viewProduct(ProductInfo) {
                                 <option value="7">7 DAYS - $${ProductInfo.Price_7_Day}</option>
                                 <option value="30" selected>30 DAYS - $${ProductInfo.Price_30_Day}</option>
                                 <option value="90">90 DAYS - $${ProductInfo.Price_90_Day}</option>
+                                <option value="-1">Lifetime - $${ProductInfo.Price_Lifetime}</option>
                             </select>
                         </div>
                         <div class="col-auto pe-0">

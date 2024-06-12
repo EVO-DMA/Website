@@ -1,6 +1,6 @@
 import { attachEvents as attachHeaderEvents, header as getHeader } from "../../templates/header";
 import { AccountData } from "../auth/accountDataManager";
-import { checkoutProduct, initialize as initializeLogic, SubscriptionTerm } from "./logic";
+import { checkoutProduct, initialize as initializeLogic, SubscriptionTerm, SubscriptionTermDays } from "./logic";
 import { initialize as initializeStripe } from "./Stripe";
 
 export async function show(queryParams) {
@@ -33,8 +33,15 @@ function getTemplate() {
     `;
 }
 
+function getPrice() {
+    if (SubscriptionTerm === -1)
+        return checkoutProduct[`Price_Lifetime`];
+    else
+        return checkoutProduct[`Price_${SubscriptionTerm}_Day`];
+}
+
 export function createProductMarkup() {
-    const price = checkoutProduct[`Price_${SubscriptionTerm}_Day`];
+    const price = getPrice();
 
     return /*html*/ `
         <div class="col-auto">
@@ -46,7 +53,7 @@ export function createProductMarkup() {
             </div>
             <div class="row m-0">
                 <div class="col-auto">
-                    <div class="form-text p-0">${SubscriptionTerm} Day Subscription</div>
+                    <div class="form-text p-0">${SubscriptionTermDays} Subscription</div>
                 </div>
             </div>
         </div>
@@ -59,10 +66,8 @@ export function createProductMarkup() {
 }
 
 export function createPurchaseButtonMarkup() {
-    const price = checkoutProduct[`Price_${SubscriptionTerm}_Day`];
-
     return /*html*/ `
-        <button class="btn btn-secondary" id="PurchaseNowButton">Pay $${price} Now</button>
+        <button class="btn btn-secondary" id="PurchaseNowButton">Pay $${getPrice()} Now</button>
     `;
 }
 

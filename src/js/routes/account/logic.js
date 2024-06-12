@@ -22,7 +22,7 @@ export function initialize() {
     accountTab_overviewEl = document.getElementById("accountTab_overview");
     accountTab_subscriptionsEl = document.getElementById("accountTab_subscriptions");
     accountTab_ordersEl = document.getElementById("accountTab_orders");
-    accountTab_referralProgramEl = document.getElementById("accountTab_referralProgram");
+    //accountTab_referralProgramEl = document.getElementById("accountTab_referralProgram");
     accountTab_accountInfoEl = document.getElementById("accountTab_accountInfo");
 
     accountContainerMainEl = document.getElementById("accountContainerMain");
@@ -30,7 +30,7 @@ export function initialize() {
     accountTab_overviewEl.addEventListener("click", showOverview);
     accountTab_subscriptionsEl.addEventListener("click", showSubscriptions);
     accountTab_ordersEl.addEventListener("click", showOrders);
-    accountTab_referralProgramEl.addEventListener("click", showReferralProgram);
+    //accountTab_referralProgramEl.addEventListener("click", showReferralProgram);
     accountTab_accountInfoEl.addEventListener("click", showAccountInfo);
 
     // Show default tab
@@ -47,7 +47,7 @@ function showOverview() {
     accountContainerMainEl.innerHTML = getOverviewTemplate(false);
 
     // Attach events to tab content
-    document.getElementById("referralProgramLearnMore").addEventListener("click", showReferralProgram);
+    //document.getElementById("referralProgramLearnMore").addEventListener("click", showReferralProgram);
 }
 
 function showSubscriptions() {
@@ -95,6 +95,6 @@ function resetUI() {
     accountTab_overviewEl.classList.remove("accountTabActive");
     accountTab_subscriptionsEl.classList.remove("accountTabActive");
     accountTab_ordersEl.classList.remove("accountTabActive");
-    accountTab_referralProgramEl.classList.remove("accountTabActive");
+    //accountTab_referralProgramEl.classList.remove("accountTabActive");
     accountTab_accountInfoEl.classList.remove("accountTabActive");
 }

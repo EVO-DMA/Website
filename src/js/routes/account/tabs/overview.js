@@ -2,9 +2,6 @@ import { AccountData, PurchaseData } from "../../auth/accountDataManager";
 
 export function getTemplate() {
     return /*html*/ `
-        <!-- If user is not a member of the referral program show the CTA -->
-        ${AccountData.account.canInvite === false ? getReferralProgramCTA() : ""}
-
         <!-- Account Stats -->
         <div class="row m-0 justify-content-center align-items-center">
             <!-- Orders -->
@@ -25,10 +22,14 @@ export function getTemplate() {
                     <div class="col-auto">${PurchaseData.activeSubscriptions}</div>
                 </div>
             </div>
-            <!-- If user is a member of the referral program show stats -->
-            ${AccountData.account.canInvite === true ? getReferralProgramCards() : ""}
         </div>
     `;
+
+    // If user is not a member of the referral program show the CTA
+    // ${AccountData.account.canInvite === false ? getReferralProgramCTA() : ""}
+
+    // If user is a member of the referral program show stats
+    // ${AccountData.account.canInvite === true ? getReferralProgramCards() : ""}
 }
 
 function getReferralProgramCards() {
