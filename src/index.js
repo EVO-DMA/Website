@@ -1,25 +1,16 @@
-// import * as Sentry from "@sentry/browser";
-// import { BrowserTracing } from "@sentry/tracing";
-
-// Sentry.init({
-//     dsn: "https://25b6e1429f0043939d46892273b13b62@sentry.rw3.io/5",
-//     integrations: [new BrowserTracing()],
-//     tracesSampleRate: 1.0,
-// });
-
 import "./css/index.sass";
 
-import { hide as hideLoader } from "./js/loader";
 import { initialize as initializeRouter } from "./js/router";
 import { get as getSessionToken } from "./js/sessionManager";
 
 (async () => {
     await getSessionToken(true);
     initializeRouter();
-    hideLoader(1000);
 })();
 
 // Lazy load Font Awesome
 import("@fortawesome/fontawesome-pro/js/fontawesome").then(() => {
     import("@fortawesome/fontawesome-pro/js/solid");
+    import("@fortawesome/fontawesome-pro/js/duotone");
+    import("@fortawesome/fontawesome-pro/js/brands");
 });

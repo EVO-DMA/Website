@@ -2,17 +2,17 @@
     margin-top: 60px !important;
     min-width: 1000px;
     max-width: 1000px;
-    background-color: #333333;
+    background-color: rgba(37, 37, 37, 0.8);
+    backdrop-filter: blur(4px);
     padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
-    border: 2px solid #444444;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px 1px rgba(0, 0, 0, 0.7);
     overflow: hidden;
 }
 
 .accountContainerSidebar {
     width: 256px;
-    border-right: 2px solid #444444;
+    border-right: 1px solid #444444;
     overflow: hidden;
     box-shadow: 5px 0px 10px rgb(0, 0, 0, 0.6);
 }
@@ -24,32 +24,29 @@
 
 .accountUsername {
     font-size: 24px;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.18) 0%, rgba(0, 0, 0, 0) 100%);
-    border-top: 2px solid #444444;
-    border-bottom: 2px solid #444444;
+    background-color: #333333;
+    border-top: 1px solid #444444;
+    border-bottom: 1px solid #444444;
 }
 
 .username-text {
-    color: #adceae;
-    text-shadow: 0px 0px 4px #227822;
-    text-align: center;
-    font-weight: bold;
-    font-size: 24px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 19px;
 }
 
 .accountTab {
     font-size: 20px;
     padding: 5px 10px;
-    background: linear-gradient(90deg, rgb(33, 33, 33) 0%, rgba(0, 0, 0, 0) 100%);
+    background-color: #212121;
     cursor: pointer;
 }
 
 .accountTab:hover {
-    background: linear-gradient(90deg, rgb(0, 160, 233) 0%, rgba(0, 0, 0, 0) 100%);
+    background: linear-gradient(90deg, #00000000 0%, rgba(255, 255, 255, 0.1) 100%);
 }
 
 .accountTabActive {
-    background: linear-gradient(90deg, rgb(0, 160, 233) 0%, rgba(0, 0, 0, 0) 100%);
+    background: linear-gradient(90deg, #00000000 0%, rgba(255, 255, 255, 0.1) 100%);
 }
 
 .accountTab:not(:last-child) {
@@ -57,23 +54,20 @@
 }
 
 .accountContainerMain {
-    padding: 20px;
     max-height: 500px;
     overflow: auto;
-}
-
-.accountStatsCard {
-    background-color: #212121;
-    border-radius: 10px;
-    border: 2px solid #444444;
-    overflow: hidden;
-    box-shadow: 0 5px 10px rgb(0, 0, 0, 0.6);
 }
 
 .accountStatsCardTitle {
     font-size: 20px;
     background-color: #333333;
     padding: 5px 10px;
+}
+
+.accountStatsCard {
+    background-color: #212121;
+    border-radius: 5px;
+    overflow: hidden;
 }
 
 .accountStatsCardValue {
@@ -98,8 +92,8 @@
 }
 
 .accountTable {
-    --bs-table-bg: #333333;
+    --bs-table-bg: #212121;
     --bs-table-border-color: #212121;
-    --bs-table-striped-bg: #444444;
-    border-color: #212121;
+    --bs-table-striped-bg: #333333;
+    border-color: #444444;
 }

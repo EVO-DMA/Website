@@ -1,7 +1,8 @@
+import { passwordStrength } from "check-password-strength";
 import { showAlert } from "../../alert";
 import { httpPost } from "../../http";
-import { hide as hideLoader, show as showLoader } from "../../loader";
-import { handleRoute } from "../../router";
+import { show as showLoader } from "../../loader";
+import { navigate } from "../../router";
 import { set as setSessionToken } from "../../sessionManager";
 
 // Elements
@@ -42,8 +43,39 @@ let authNewPasswordEl;
 /** @type {HTMLInputElement} */
 let authInviteCodeEl;
 
+// Show/Hide Password
+/** @type {HTMLDivElement} */
+let authPassword_visibilityToggleEl;
+/** @type {HTMLDivElement} */
+let authNewPassword_visibilityToggleEl;
+
 /** @type {HTMLDivElement} */
 let authShowForgotPasswordEl;
+
+// Password Strength
+/** @type {HTMLSpanElement} */
+let passwordStrengthTextEl;
+// Lowercase
+/** @type {HTMLDivElement} */
+let passwordStrengthCriteria_lowercaseContainerEl;
+/** @type {HTMLSpanElement} */
+let passwordStrengthCriteria_lowercaseIconEl;
+// Uppercase
+/** @type {HTMLDivElement} */
+let passwordStrengthCriteria_uppercaseContainerEl;
+/** @type {HTMLSpanElement} */
+let passwordStrengthCriteria_uppercaseIconEl;
+// Number
+/** @type {HTMLDivElement} */
+let passwordStrengthCriteria_numberContainerEl;
+/** @type {HTMLSpanElement} */
+let passwordStrengthCriteria_numberIconEl;
+// Symbol
+/** @type {HTMLDivElement} */
+let passwordStrengthCriteria_symbolContainerEl;
+/** @type {HTMLSpanElement} */
+let passwordStrengthCriteria_symbolIconEl;
+
 
 /**
  * Display auth alerts from a string array.
@@ -116,8 +148,27 @@ export function initialize(queryParams) {
     authNewPasswordEl = document.getElementById("authNewPassword");
     authInviteCodeEl = document.getElementById("authInviteCode");
 
+    // Show/Hide Password
+    authPassword_visibilityToggleEl = document.getElementById("authPassword_visibilityToggle");
+    authNewPassword_visibilityToggleEl = document.getElementById("authNewPassword_visibilityToggle");
+
     // Forgot password link
     authShowForgotPasswordEl = document.getElementById("authShowForgotPassword");
+
+    // Password Strength
+    passwordStrengthTextEl = document.getElementById("passwordStrengthText");
+    // Lowercase
+    passwordStrengthCriteria_lowercaseContainerEl = document.getElementById("passwordStrengthCriteria_lowercaseContainer");
+    passwordStrengthCriteria_lowercaseIconEl = document.getElementById("passwordStrengthCriteria_lowercaseIcon");
+    // Uppercase
+    passwordStrengthCriteria_uppercaseContainerEl = document.getElementById("passwordStrengthCriteria_uppercaseContainer");
+    passwordStrengthCriteria_uppercaseIconEl = document.getElementById("passwordStrengthCriteria_uppercaseIcon");
+    // Number
+    passwordStrengthCriteria_numberContainerEl = document.getElementById("passwordStrengthCriteria_numberContainer");
+    passwordStrengthCriteria_numberIconEl = document.getElementById("passwordStrengthCriteria_numberIcon");
+    // Symbol
+    passwordStrengthCriteria_symbolContainerEl = document.getElementById("passwordStrengthCriteria_symbolContainer");
+    passwordStrengthCriteria_symbolIconEl = document.getElementById("passwordStrengthCriteria_symbolIcon");
 
     // Login
     authShowLoginEl.addEventListener("click", showLogin);
@@ -140,15 +191,12 @@ export function initialize(queryParams) {
 
                 if (sessionToken != null && sessionToken.length > 0) {
                     await setSessionToken(sessionToken, true);
-                    history.pushState(null, null, "/account");
-                    handleRoute();
+                    navigate("/account");
                 }
             } catch (error) {
                 console.error(`ERROR saving session token: ${error}`);
             }
         }
-
-        hideLoader(300);
     });
 
     // Registration
@@ -204,6 +252,26 @@ export function initialize(queryParams) {
         }
     });
 
+    // Show/Hide Password
+    authPassword_visibilityToggleEl.addEventListener("click", () => {
+        if (authPasswordEl.type === "password") {
+            authPasswordEl.type = "text";
+            authPassword_visibilityToggleEl.innerHTML = `<i class="fa-duotone fa-eye"></i>`;
+        } else {
+            authPasswordEl.type = "password";
+            authPassword_visibilityToggleEl.innerHTML = `<i class="fa-duotone fa-eye-slash"></i>`;
+        }
+    });
+    authNewPassword_visibilityToggleEl.addEventListener("click", () => {
+        if (authNewPasswordEl.type === "password") {
+            authNewPasswordEl.type = "text";
+            authNewPassword_visibilityToggleEl.innerHTML = `<i class="fa-duotone fa-eye"></i>`;
+        } else {
+            authNewPasswordEl.type = "password";
+            authNewPassword_visibilityToggleEl.innerHTML = `<i class="fa-duotone fa-eye-slash"></i>`;
+        }
+    });
+
     // Forgot Password
     authShowForgotPasswordEl.addEventListener("click", showForgotPassword);
     authSendForgotPasswordEmailEl.addEventListener("click", async () => {
@@ -250,6 +318,19 @@ export function initialize(queryParams) {
         }
     });
 
+    // Update password strength on keyup event of password fields
+    authPasswordEl.addEventListener("keyup", () => {
+        const value = authPasswordEl.value;
+
+        setPasswordStrength(value);
+    });
+
+    authNewPasswordEl.addEventListener("keyup", () => {
+        const value = authNewPasswordEl.value;
+
+        setPasswordStrength(value);
+    });
+
     // Parse query params and show appropriate content
     const urlAction = queryParams["action"];
     if (urlAction != null) {
@@ -281,9 +362,79 @@ export function initialize(queryParams) {
             if (email != null) {
                 authEmailEl.value = email;
             }
+        } else if (urlAction === "forgot-password") {
+            showForgotPassword();
+
+            // Try to populate email
+            const email = queryParams["email"];
+            if (email != null) {
+                authEmailEl.value = email;
+            }
         }
     } else {
         showLogin();
+    }
+}
+
+/**
+ * @param {string} password
+ */
+function setPasswordStrength(password) {
+    const strength = passwordStrength(password);
+
+    // Set human-readable password strength text
+    passwordStrengthTextEl.innerText = strength.value;
+
+    // Clear all classes
+    for (let i = 0; i < 4; i++) {
+        passwordStrengthTextEl.classList.remove(`passwordStrengthText_${i}`);
+    }
+    
+    // Add current strength class
+    passwordStrengthTextEl.classList.add(`passwordStrengthText_${strength.id}`);
+
+    // Lowercase
+    if (strength.contains.indexOf("lowercase") !== -1) {
+        passwordStrengthCriteria_lowercaseContainerEl.classList.add("passwordStrengthCriteria_met");
+        passwordStrengthCriteria_lowercaseContainerEl.classList.remove("passwordStrengthCriteria_notMet");
+        passwordStrengthCriteria_lowercaseIconEl.innerHTML = `<i class="fa-duotone fa-circle-check inlineTextIcon me-1"></i>`;
+    } else {
+        passwordStrengthCriteria_lowercaseContainerEl.classList.add("passwordStrengthCriteria_notMet");
+        passwordStrengthCriteria_lowercaseContainerEl.classList.remove("passwordStrengthCriteria_met");
+        passwordStrengthCriteria_lowercaseIconEl.innerHTML = `<i class="fa-duotone fa-circle-xmark inlineTextIcon me-1"></i>`;
+    }
+
+    // Uppercase
+    if (strength.contains.indexOf("uppercase") !== -1) {
+        passwordStrengthCriteria_uppercaseContainerEl.classList.add("passwordStrengthCriteria_met");
+        passwordStrengthCriteria_uppercaseContainerEl.classList.remove("passwordStrengthCriteria_notMet");
+        passwordStrengthCriteria_uppercaseIconEl.innerHTML = `<i class="fa-duotone fa-circle-check inlineTextIcon me-1"></i>`;
+    } else {
+        passwordStrengthCriteria_uppercaseContainerEl.classList.add("passwordStrengthCriteria_notMet");
+        passwordStrengthCriteria_uppercaseContainerEl.classList.remove("passwordStrengthCriteria_met");
+        passwordStrengthCriteria_uppercaseIconEl.innerHTML = `<i class="fa-duotone fa-circle-xmark inlineTextIcon me-1"></i>`;
+    }
+
+    // Number
+    if (strength.contains.indexOf("number") !== -1) {
+        passwordStrengthCriteria_numberContainerEl.classList.add("passwordStrengthCriteria_met");
+        passwordStrengthCriteria_numberContainerEl.classList.remove("passwordStrengthCriteria_notMet");
+        passwordStrengthCriteria_numberIconEl.innerHTML = `<i class="fa-duotone fa-circle-check inlineTextIcon me-1"></i>`;
+    } else {
+        passwordStrengthCriteria_numberContainerEl.classList.add("passwordStrengthCriteria_notMet");
+        passwordStrengthCriteria_numberContainerEl.classList.remove("passwordStrengthCriteria_met");
+        passwordStrengthCriteria_numberIconEl.innerHTML = `<i class="fa-duotone fa-circle-xmark inlineTextIcon me-1"></i>`;
+    }
+
+    // Symbol
+    if (strength.contains.indexOf("symbol") !== -1) {
+        passwordStrengthCriteria_symbolContainerEl.classList.add("passwordStrengthCriteria_met");
+        passwordStrengthCriteria_symbolContainerEl.classList.remove("passwordStrengthCriteria_notMet");
+        passwordStrengthCriteria_symbolIconEl.innerHTML = `<i class="fa-duotone fa-circle-check inlineTextIcon me-1"></i>`;
+    } else {
+        passwordStrengthCriteria_symbolContainerEl.classList.add("passwordStrengthCriteria_notMet");
+        passwordStrengthCriteria_symbolContainerEl.classList.remove("passwordStrengthCriteria_met");
+        passwordStrengthCriteria_symbolIconEl.innerHTML = `<i class="fa-duotone fa-circle-xmark inlineTextIcon me-1"></i>`;
     }
 }
 
@@ -295,8 +446,7 @@ export async function logout() {
         showAlert("error", "Error Logging Out", "An unknown error occurred while attempting to log you out. Please try again later.", false, false, "Dismiss");
     } else {
         setSessionToken("");
-        history.pushState(null, null, "/auth");
-        handleRoute();
+        navigate("/auth");
         alertHandler(response.success, response.message);
     }
 }
@@ -337,6 +487,7 @@ function showRegistration() {
 
     // Password
     setRelativesVisibility("authPassword", "show");
+    setRelativesVisibility("authPasswordRelated", "show");
 
     // Invite Code
     setRelativesVisibility("authInviteCode", "show");
@@ -397,6 +548,7 @@ function showPasswordReset() {
 
     // New Password
     setRelativesVisibility("authNewPassword", "show");
+    setRelativesVisibility("authPasswordRelated", "show");
 
     // Buttons
     setRelativesVisibility("authResetPassword", "show");
@@ -408,7 +560,7 @@ function showPasswordReset() {
  */
 function resetUI() {
     // Form Title
-    authFormTitleEl.innerText = "Loading...";
+    authFormTitleEl.innerText = "Loading";
 
     // Alerts
     authAlertsEl.style.display = "none";
@@ -419,6 +571,14 @@ function resetUI() {
     authPasswordEl.value = "";
     authNewPasswordEl.value = "";
     authInviteCodeEl.value = "";
+
+    // Reset password visibility
+    // Password
+    authPasswordEl.type = "password";
+    authPassword_visibilityToggleEl.innerHTML = `<i class="fa-duotone fa-eye-slash"></i>`;
+    // New Password
+    authNewPasswordEl.type = "password";
+    authNewPassword_visibilityToggleEl.innerHTML = `<i class="fa-duotone fa-eye-slash"></i>`;
 
     // Username
     setRelativesVisibility("authUsername", "hide");
@@ -435,6 +595,10 @@ function resetUI() {
     // Password
     setRelativesVisibility("authPassword", "hide");
     setRelativesVisibility("authShowForgotPassword", "hide");
+    setRelativesVisibility("authPasswordRelated", "hide");
+
+    // Password Strength
+    setPasswordStrength("");
 
     // New Password
     setRelativesVisibility("authNewPassword", "hide");

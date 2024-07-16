@@ -3,7 +3,7 @@ import { AccountData, PurchaseData } from "../../auth/accountDataManager";
 export function getTemplate() {
     return /*html*/ `
         <!-- Account Stats -->
-        <div class="row m-0 justify-content-center align-items-center">
+        <div class="row m-0 p-3 justify-content-center align-items-center">
             <!-- Orders -->
             <div class="col-auto p-0 me-3 accountStatsCard">
                 <div class="row m-0 justify-content-center align-items-center accountStatsCardTitle">

@@ -2,7 +2,7 @@ import { attachEvents as attachHeaderEvents, header as getHeader } from "../../t
 import { AccountData } from "../auth/accountDataManager";
 import { initialize as initializeLogic } from "./logic";
 
-export function show(queryParams) {
+export async function show(queryParams) {
     if (AccountData == null) return;
     document.getElementById("baseContainer").innerHTML = getTemplate();
     attachHeaderEvents();
@@ -22,7 +22,12 @@ function getTemplate() {
                         <img src="data:image/png;base64,${AccountData.user.Avatar}" class="p-0 accountProfilePicture" />
                     </div>
                     <div class="row m-0 pt-2 pb-2 p-0 accountUsername justify-content-center align-items-center">
-                        <span class="username-text">${AccountData.user.Username}</span>
+                        <div class="col-auto pe-0 uid-text">
+                            #${AccountData.user.uid}
+                        </div>
+                        <div class="col text-center username-text">
+                            ${AccountData.user.Username}
+                        </div>
                     </div>
                 </div>
                 <div class="row m-0 accountTabsContainer">
@@ -34,7 +39,7 @@ function getTemplate() {
                 </div>
             </div>
             <!-- Main -->
-            <div class="col accountContainerMain" id="accountContainerMain"></div>
+            <div class="col accountContainerMain p-0" id="accountContainerMain"></div>
         </div>
     `;
 }

@@ -1,10 +1,11 @@
-import * as MarkdownIt from "markdown-it";
+import markdownit from "markdown-it";
 import { httpPost } from "../../http";
-import { handleRoute } from "../../router";
+import { navigate } from "../../router";
 import { attachEvents as attachHeaderEvents, header as getHeader } from "../../templates/header";
 import { showImageViewer } from "./imageViewer";
+import defaultIcon from "../../../img/defaultIcon.svg";
 
-const MD = new MarkdownIt();
+const MD = markdownit();
 
 /**
  * Represents a Product of the application.
@@ -19,19 +20,23 @@ const MD = new MarkdownIt();
  * @property {string} Blurb The blurb of this product.
  * @property {number} Price_1_Day The 1-day price of this product.
  * @property {number} Price_7_Day The 7-day price of this product.
+ * @property {number} Price_15_Day The 15-day price of this product.
+ * @property {number} Price_15_Day_Sub The 15-day subbed price of this product.
  * @property {number} Price_30_Day The 30-day price of this product.
+ * @property {number} Price_30_Day_Sub The 30-day subbed price of this product.
  * @property {number} Price_90_Day The 90-day price of this product.
+ * @property {number} Price_30_Day_Sub The 30-day subbed price of this product.
  * @property {number} Price_Lifetime The lifetime price of this product.
  * @property {number} Max_Slots If Status is Private, this indicates the max slots of the product.
  * @property {number} Used_Slots If Status is Private, this indicates the used slots of the product.
  * @property {("Hidden"|"Available"|"Unavailable"|"Updating"|"Private")} Status The status of this product.
+ * @property {boolean} Track_Stock Whether or not this product tracks key stock.
  */
 
 /** @type {Product[]?} */
 let products = null;
 
 export async function show(queryParams) {
-    // Try to get account details
     const result = await httpPost("get-products", {}, true);
     const response = result.response;
     if (response.success) {
@@ -81,6 +86,16 @@ function getTemplate() {
 }
 
 /**
+ * @param {number?} price
+ */
+function isValidPrice(price) {
+    if (price != null && price !== -1)
+        return true;
+
+    return false;
+}
+
+/**
  * @param {Product} ProductInfo
  */
 function createProduct(ProductInfo) {
@@ -88,7 +103,7 @@ function createProduct(ProductInfo) {
         <div class="row m-0 justify-content-center align-items-center storeItem" id="${ProductInfo.ID}">
             <!-- Icon -->
             <div class="col-auto">
-                <img src="${ProductInfo.Icon}" class="p-0 storeItemIcon" />
+                <img src="${ProductInfo.Icon == null || ProductInfo.Icon == "" ? defaultIcon : ProductInfo.Icon}" class="p-0 storeItemIcon" />
             </div>
             <!-- Name/Blurb -->
             <div class="col">
@@ -133,14 +148,16 @@ function viewProduct(ProductInfo) {
                         <div class="col-auto storeItemDescriptionBlurb">${ProductInfo.Blurb}</div>
                     </div>
                     <!-- Images -->
-                    <div class="row m-0 mt-3 justify-content-center align-items-center storeViewItemImages">
-                        ${createProductImages(ProductInfo.Images)}
-                    </div>
+                    ${ProductInfo.Images.length > 0 ? /*html*/`
+                        <div class="row m-0 mt-3 justify-content-center align-items-center storeViewItemImages">
+                            ${createProductImages(ProductInfo.Images)}
+                        </div>
+                    ` : ""}
                     <!-- Description/Features Area -->
                     <div class="row m-0 mt-3 storeItemTabsContainer">
                         <!-- Description/Features Toggle -->
-                        <div class="row m-0 storeItemTabSelectorOuter">
-                            <div class="col-auto me-3 p-0 storeItemTabSelector storeItemTabSelectorActive" id="storeItemTabSelector_Description"><i class="fa-solid fa-quote-right me-2"></i>Description</div>
+                        <div class="row m-0 p-0 storeItemTabSelectorOuter">
+                            <div class="col-auto p-0 storeItemTabSelector storeItemTabSelectorActive" id="storeItemTabSelector_Description"><i class="fa-solid fa-quote-right me-2"></i>Description</div>
                             <div class="col-auto p-0 storeItemTabSelector" id="storeItemTabSelector_Features"><i class="fa-solid fa-list-ul me-2"></i>Features</div>
                         </div>
                         <div class="row m-0 p-3 storeItemSelectedTabContent">
@@ -155,20 +172,20 @@ function viewProduct(ProductInfo) {
                     <div class="row m-0">
                         <div class="col p-0">
                             <select class="form-select" id="SubscriptionTermDropdown">
-                                <option value="1">1 DAY - $${ProductInfo.Price_1_Day}</option>
-                                <option value="7">7 DAYS - $${ProductInfo.Price_7_Day}</option>
-                                <option value="30" selected>30 DAYS - $${ProductInfo.Price_30_Day}</option>
-                                <option value="90">90 DAYS - $${ProductInfo.Price_90_Day}</option>
-                                <option value="-1">Lifetime - $${ProductInfo.Price_Lifetime}</option>
+                                ${isValidPrice(ProductInfo.Price_1_Day) ? `<option value="1">1 DAY - $${ProductInfo.Price_1_Day}</option>` : ""}
+                                ${isValidPrice(ProductInfo.Price_7_Day) ? `<option value="1">7 DAYS - $${ProductInfo.Price_7_Day}</option>` : ""}
+                                ${isValidPrice(ProductInfo.Price_15_Day) ? `<option value="1">15 DAYS - $${ProductInfo.Price_15_Day}</option>` : ""}
+                                ${isValidPrice(ProductInfo.Price_30_Day) ? `<option selected value="1">30 DAYS - $${ProductInfo.Price_30_Day}</option>` : ""}
+                                ${isValidPrice(ProductInfo.Price_90_Day) ? `<option value="1">90 DAYS - $${ProductInfo.Price_90_Day}</option>` : ""}
+                                ${isValidPrice(ProductInfo.Price_Lifetime) ? `<option value="1">Lifetime - $${ProductInfo.Price_Lifetime}</option>` : ""}
                             </select>
                         </div>
                         <div class="col-auto pe-0">
-                            <button class="btn btn-primary" id="PurchaseNowButton">Purchase Now</button>
+                            <button class="btn btn-primary" id="PurchaseNowButton">Checkout</button>
                         </div>
                     </div>
                 </div>
             </div>
-            
         </div>
     `;
 }
@@ -177,12 +194,27 @@ function viewProduct(ProductInfo) {
  * @param {string[]} Images
  */
 function createProductImages(Images) {
+    /**
+     * @param {string} Image
+     */
     const getBase = (Image) => {
-        return /*html*/ `
-            <div class="col-auto">
-                <img src="${Image}" class="p-0 storeViewItemImage" />
-            </div>
-        `;
+        if (Image.endsWith(".mp4")) {
+            return /*html*/ `
+                <div class="col-auto">
+                    <div class="row m-0 storeViewItemImage storeViewItemVideo justify-content-center align-items-center">
+                        <div class="col-auto">
+                            <i class="fa-duotone fa-play storeViewItemVideoIcon"></i>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else {
+            return /*html*/ `
+                <div class="col-auto">
+                    <img src="${Image}" class="p-0 storeViewItemImage" />
+                </div>
+            `;
+        }
     };
 
     const HTML = [];
@@ -248,8 +280,7 @@ function attachProductEvents() {
 
             document.getElementById("PurchaseNowButton").addEventListener("click", () => {
                 const term = document.getElementById("SubscriptionTermDropdown").value.split(" ")[0];
-                history.pushState(null, "", `/checkout?ProductID=${product.ID}&SubscriptionTerm=${term}`);
-                handleRoute();
+                navigate(`/checkout?ProductID=${product.ID}&SubscriptionTerm=${term}`);
             });
         });
     });

@@ -1,7 +1,7 @@
 import { showAlert } from "../../alert";
 import { httpPost } from "../../http";
 import { hide as hideLoader, show as showLoader } from "../../loader";
-import { handleRoute } from "../../router";
+import { navigate } from "../../router";
 import { confirmPayment, createPaymentElement, retrievePaymentIntent } from "./Stripe";
 import { createProductMarkup, createPurchaseButtonMarkup } from "./template";
 
@@ -26,7 +26,7 @@ export async function initialize(queryParams) {
         else
             SubscriptionTermDays = `${SubscriptionTerm} Day`;
 
-        retrievePaymentIntent(paymentIntentClientSecret, ProductID, SubscriptionTerm);
+        await retrievePaymentIntent(paymentIntentClientSecret, ProductID, SubscriptionTerm);
     } else {
         // This is a purchase attempt
 
@@ -34,15 +34,13 @@ export async function initialize(queryParams) {
         const ProductID = queryParams["ProductID"];
         if (ProductID == null) {
             showAlert("error", "Checkout Error", "Missing Product ID. Please try again later.", false, false, "Show Store", "", "", () => {
-                history.pushState(null, "", "/store");
-                handleRoute();
+                navigate("/store");
             });
         }
         SubscriptionTerm = queryParams["SubscriptionTerm"];
         if (SubscriptionTerm == null) {
             showAlert("error", "Checkout Error", "Missing Subscription Term. Please try again later.", false, false, "Show Store", "", "", () => {
-                history.pushState(null, "", "/store");
-                handleRoute();
+                navigate("/store");
             });
         }
         SubscriptionTerm = Number(SubscriptionTerm);
@@ -63,8 +61,7 @@ export async function initialize(queryParams) {
         const paymentIntentResponse = paymentIntentResult.response;
         if (!paymentIntentResponse.success) {
             showAlert("error", "Checkout Error", paymentIntentResponse.message.join("<hr>"), false, false, "Show Store", "", "", () => {
-                history.pushState(null, "", "/store");
-                handleRoute();
+                navigate("/store");
             });
             return;
         }
@@ -80,8 +77,7 @@ export async function initialize(queryParams) {
         const getProductResponse = getProductResult.response;
         if (!getProductResponse.success) {
             showAlert("error", "Checkout Error", "Error getting Product Details. Please try again later.", false, false, "Show Store", "", "", () => {
-                history.pushState(null, "", "/store");
-                handleRoute();
+                navigate("/store");
             });
             return;
         }

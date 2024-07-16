@@ -22,17 +22,33 @@ function generateHTML(images, startIndex) {
     const imagesHTML = [];
     images.forEach((image, i) => {
         if (i === startIndex) {
-            imagesHTML.push(/*html*/ `
-                <div class="col-auto p-0 imageViewerImageContainer">
-                    <img src="${image}" class="p-0 imageViewerImage" />
-                </div>
-            `);
+            if (image.endsWith(".mp4")) {
+                imagesHTML.push(/*html*/ `
+                    <div class="col-auto p-0 imageViewerImageContainer">
+                        <video autoplay="true" loop="true" src="${image}" class="p-0 imageViewerImage" type="video/mp4" />
+                    </div>
+                `);
+            } else {
+                imagesHTML.push(/*html*/ `
+                    <div class="col-auto p-0 imageViewerImageContainer">
+                        <img src="${image}" class="p-0 imageViewerImage" />
+                    </div>
+                `);
+            }
         } else {
-            imagesHTML.push(/*html*/ `
-                <div class="col-auto p-0 imageViewerImageContainer" style="display: none;">
-                    <img src="${image}" class="p-0 imageViewerImage" />
-                </div>
-            `);
+            if (image.endsWith(".mp4")) {
+                imagesHTML.push(/*html*/ `
+                    <div class="col-auto p-0 imageViewerImageContainer" style="display: none;">
+                        <video autoplay="true" loop="true" src="${image}" class="p-0 imageViewerImage" type="video/mp4" />
+                    </div>
+                `);
+            } else {
+                imagesHTML.push(/*html*/ `
+                    <div class="col-auto p-0 imageViewerImageContainer" style="display: none;">
+                        <img src="${image}" class="p-0 imageViewerImage" />
+                    </div>
+                `);
+            }
         }
     });
 
@@ -41,7 +57,7 @@ function generateHTML(images, startIndex) {
             <div class="col-auto p-0 imageViewerCloseButton" id="imageViewerCloseButton">
                 <i class="fa-solid fa-xmark"></i>
             </div>
-            <div class="row col-12 m-0 p-0 justify-content-between align-items-center">
+            <div class="row col-12 m-0 p-0 imageViewerContainerInner justify-content-between align-items-center">
                 <div class="col-auto imageViewerChevron" id="imageViewerLeftChevron"><i class="fa-solid fa-chevron-left"></i></div>
                 ${imagesHTML.join("")}
                 <div class="col-auto imageViewerChevron" id="imageViewerRightChevron"><i class="fa-solid fa-chevron-right"></i></div>

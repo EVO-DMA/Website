@@ -58,7 +58,7 @@ export async function getAccountData() {
 }
 
 async function getPurchaseData() {
-    // Try to get account details
+    // Try to get purchase details
     const result = await httpPost("get-purchase-data", {}, true);
     const response = result.response;
     if (response.success) {

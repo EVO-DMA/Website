@@ -1,6 +1,6 @@
 import { showAlert } from "./alert";
 import globals from "./globals";
-import { handleRoute } from "./router";
+import { navigate } from "./router";
 import { sessionToken, set as setSessionToken } from "./sessionManager";
 
 /**
@@ -39,8 +39,7 @@ export function httpPost(endpoint, body, authenticated = false) {
                     const url = new URL(window.location.href);
                     const currentUrl = url.pathname;
                     if (currentUrl !== "/auth") {
-                        history.pushState(null, "", "/auth");
-                        handleRoute();
+                        navigate("/auth");
                         showAlert("info", "Access Denied", "Invalid session, please login.", false, false, "Dismiss");
                     }
                 }

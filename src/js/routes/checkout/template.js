@@ -8,7 +8,7 @@ export async function show(queryParams) {
     document.getElementById("baseContainer").innerHTML = getTemplate();
     attachHeaderEvents();
     await initializeStripe();
-    initializeLogic(queryParams);
+    await initializeLogic(queryParams);
 }
 
 function getTemplate() {
@@ -67,7 +67,7 @@ export function createProductMarkup() {
 
 export function createPurchaseButtonMarkup() {
     return /*html*/ `
-        <button class="btn btn-secondary" id="PurchaseNowButton">Pay $${getPrice()} Now</button>
+        <button class="btn btn-primary" id="PurchaseNowButton">Pay $${getPrice()} Now</button>
     `;
 }
 

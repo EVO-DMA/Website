@@ -41,7 +41,7 @@ const webpack_common = {
                 type: "asset/resource",
                 exclude: /(img)/,
                 generator: {
-                    filename: "fonts/[name].[hash].[ext]",
+                    filename: "fonts/[name].[hash][ext]",
                 },
             },
             {
