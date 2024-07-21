@@ -1,9 +1,10 @@
 import { attachEvents as attachHeaderEvents, header as getHeader } from "../../templates/header";
-import { AccountData } from "../auth/accountDataManager";
+import { AccountData, getAccountData } from "../auth/accountDataManager";
 import { initialize as initializeLogic } from "./logic";
 
 export async function show(queryParams) {
     if (AccountData == null) return;
+    await getAccountData();
     document.getElementById("baseContainer").innerHTML = getTemplate();
     attachHeaderEvents();
     initializeLogic();
@@ -33,6 +34,7 @@ function getTemplate() {
                 <div class="row m-0 accountTabsContainer">
                     <div class="accountTab" id="accountTab_overview">Overview</div>
                     <div class="accountTab" id="accountTab_subscriptions">Subscriptions</div>
+                    <div class="accountTab" id="accountTab_keys">Keys</div>
                     <div class="accountTab" id="accountTab_orders">Orders</div>
                     <!-- <div class="accountTab" id="accountTab_referralProgram">Referral Program</div> -->
                     <div class="accountTab" id="accountTab_accountInfo">Account Info</div>

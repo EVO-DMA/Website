@@ -7,6 +7,7 @@ import { createProductMarkup, createPurchaseButtonMarkup } from "./template";
 
 /** @type {import("../store/template.js").Product} */
 export let checkoutProduct = null;
+export let checkoutStock = {};
 /** @type {string} */
 export let SubscriptionTermDays = "";
 /** @type {number} */
@@ -81,7 +82,8 @@ export async function initialize(queryParams) {
             });
             return;
         }
-        checkoutProduct = getProductResponse.message;
+        checkoutProduct = getProductResponse.message.product;
+        checkoutStock = getProductResponse.message.stock;
         // Inject product markup
         document.getElementById("checkoutProduct").innerHTML = createProductMarkup();
 

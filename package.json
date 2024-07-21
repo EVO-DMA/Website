@@ -9,7 +9,7 @@
 		"format": "node formatter/main.js .prettierrc src build index.html"
 	},
 	"dependencies": {
-		"@fortawesome/fontawesome-pro": "^6.5.2",
+		"@fortawesome/fontawesome-pro": "^6.6.0",
 		"@stripe/stripe-js": "^4.1.0",
 		"@sweetalert2/theme-dark": "^5.0.17",
 		"bootstrap": "^5.3.3",
@@ -18,7 +18,7 @@
 		"overlayscrollbars": "^2.9.2",
 		"pretty-bytes": "^6.1.1",
 		"showdown": "^2.1.0",
-		"sweetalert2": "^11.12.2"
+		"sweetalert2": "^11.12.3"
 	},
 	"devDependencies": {
 		"ansi-colors": "^4.1.3",

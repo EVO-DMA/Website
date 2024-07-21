@@ -56,6 +56,9 @@ export function createPaymentElement(clientSecret) {
 
     paymentElement = elements.create("payment", {
         layout: "accordion",
+        fields: {
+            billingDetails: "never"
+        },
         terms: {
             card: "never",
             cashapp: "never",

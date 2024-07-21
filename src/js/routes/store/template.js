@@ -4,6 +4,7 @@ import { navigate } from "../../router";
 import { attachEvents as attachHeaderEvents, header as getHeader } from "../../templates/header";
 import { showImageViewer } from "./imageViewer";
 import defaultIcon from "../../../img/defaultIcon.svg";
+import { AccountData } from "../auth/accountDataManager";
 
 const MD = markdownit();
 
@@ -35,12 +36,18 @@ const MD = markdownit();
 
 /** @type {Product[]?} */
 let products = null;
+let stock = {};
+/**
+ * Whether or not any Terms are available for purchase.
+ */
+let anyTermsAvailable = false;
 
 export async function show(queryParams) {
     const result = await httpPost("get-products", {}, true);
     const response = result.response;
     if (response.success) {
-        products = response.message;
+        products = response.message.products;
+        stock = response.message.stock;
     } else {
         // Show message - unable to retrieve products
         return;
@@ -83,16 +90,6 @@ function getTemplate() {
             ${storeItems.join("")}
         </div>
     `;
-}
-
-/**
- * @param {number?} price
- */
-function isValidPrice(price) {
-    if (price != null && price !== -1)
-        return true;
-
-    return false;
 }
 
 /**
@@ -169,15 +166,15 @@ function viewProduct(ProductInfo) {
                 <!-- Purchase -->
                 <div class="col-12 mt-3 storeViewItemMain">
                     <div class="form-text mb-2">All subscriptions grant access to the Subscribers Only area of our Discord.</div>
-                    <div class="row m-0">
+                    <div class="row m-0" id="SubscriptionTermDropdownContainer">
                         <div class="col p-0">
                             <select class="form-select" id="SubscriptionTermDropdown">
-                                ${isValidPrice(ProductInfo.Price_1_Day) ? `<option value="1">1 DAY - $${ProductInfo.Price_1_Day}</option>` : ""}
-                                ${isValidPrice(ProductInfo.Price_7_Day) ? `<option value="1">7 DAYS - $${ProductInfo.Price_7_Day}</option>` : ""}
-                                ${isValidPrice(ProductInfo.Price_15_Day) ? `<option value="1">15 DAYS - $${ProductInfo.Price_15_Day}</option>` : ""}
-                                ${isValidPrice(ProductInfo.Price_30_Day) ? `<option selected value="1">30 DAYS - $${ProductInfo.Price_30_Day}</option>` : ""}
-                                ${isValidPrice(ProductInfo.Price_90_Day) ? `<option value="1">90 DAYS - $${ProductInfo.Price_90_Day}</option>` : ""}
-                                ${isValidPrice(ProductInfo.Price_Lifetime) ? `<option value="1">Lifetime - $${ProductInfo.Price_Lifetime}</option>` : ""}
+                                ${getPriceMarkup(1, ProductInfo)}
+                                ${getPriceMarkup(7, ProductInfo)}
+                                ${getPriceMarkup(15, ProductInfo)}
+                                ${getPriceMarkup(30, ProductInfo)}
+                                ${getPriceMarkup(90, ProductInfo)}
+                                ${getPriceMarkup(-1, ProductInfo)}
                             </select>
                         </div>
                         <div class="col-auto pe-0">
@@ -188,6 +185,56 @@ function viewProduct(ProductInfo) {
             </div>
         </div>
     `;
+}
+
+/**
+ * @param {number?} price
+ */
+function isValidPrice(price) {
+    if (price != null && price !== -1)
+        return true;
+
+    return false;
+}
+
+/**
+ * @param {number} day
+ * @param {Product} product
+ * @param {any} stock
+ */
+export function getPrice(day, product, stock) {
+    let usedDayName = day;
+    if (day === -1) usedDayName = "Lifetime";
+
+    const subPrice = product[`Price_${usedDayName}_Day_Sub`];
+    const nonSubPrice = product[`Price_${usedDayName}_Day`];
+
+    if (product.Track_Stock) {
+        const stockInfo = stock[product.ID][day];
+        if (stockInfo == null || stockInfo <= 0) return -1;
+    }
+
+    if (AccountData.account.canHaveActiveSubDiscount && isValidPrice(subPrice)) return subPrice;
+    else if (isValidPrice(nonSubPrice)) return nonSubPrice;
+    else return -1;
+}
+
+/**
+ * @param {number} day
+ * @param {Product} productInfo
+ */
+function getPriceMarkup(day, product) {
+    const price = getPrice(day, product, stock);
+
+    if (price === -1) return "";
+    else {
+        anyTermsAvailable = true;
+        let daysStr = `${day} DAY`;
+        if (day === -1) daysStr = "Lifetime";
+        else if (day > 1) daysStr = `${day} DAYS`;
+
+        return `<option value="${day}">${daysStr} - $${price}</option>`;
+    }
 }
 
 /**
@@ -278,10 +325,18 @@ function attachProductEvents() {
                 storeItemTabContent_FeaturesEl.style.display = "";
             });
 
-            document.getElementById("PurchaseNowButton").addEventListener("click", () => {
-                const term = document.getElementById("SubscriptionTermDropdown").value.split(" ")[0];
-                navigate(`/checkout?ProductID=${product.ID}&SubscriptionTerm=${term}`);
-            });
+            if (!anyTermsAvailable) {
+                document.getElementById("SubscriptionTermDropdownContainer").innerHTML = /*html*/`
+                    <div class="col-auto p-0">
+                        <h3>This product is temporarily unavailable.</h3>
+                    </div>
+                `;
+            } else {
+                document.getElementById("PurchaseNowButton").addEventListener("click", () => {
+                    const term = document.getElementById("SubscriptionTermDropdown").value.split(" ")[0];
+                    navigate(`/checkout?ProductID=${product.ID}&SubscriptionTerm=${term}`);
+                });
+            }
         });
     });
 }

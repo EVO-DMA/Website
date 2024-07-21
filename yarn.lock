@@ -124,10 +124,10 @@
   resolved "https://registry.yarnpkg.com/@esbuild/win32-x64/-/win32-x64-0.17.11.tgz#9be796d93ae27b636da32d960899a4912bca27a1"
   integrity sha512-N9vXqLP3eRL8BqSy8yn4Y98cZI2pZ8fyuHx6lKjiG2WABpT2l01TXdzq5Ma2ZUBzfB7tx5dXVhge8X9u0S70ZQ==
 
-"@fortawesome/fontawesome-pro@^6.5.2":
-  version "6.5.2"
-  resolved "https://npm.fontawesome.com/@fortawesome/fontawesome-pro/-/6.5.2/fontawesome-pro-6.5.2.tgz#aea8a43f1f86e29c40fbf6a119c331311967f867"
-  integrity sha512-C12SvO3F42wPWEMM/+r75oAdljD3qv3K5MALPZWfK4I7OEkF+teT9UB3XvpNK+FBOtBkg/BxHTDQJ3MYpbfLYg==
+"@fortawesome/fontawesome-pro@^6.6.0":
+  version "6.6.0"
+  resolved "https://npm.fontawesome.com/@fortawesome/fontawesome-pro/-/6.6.0/fontawesome-pro-6.6.0.tgz#be3e1f5745b94077b361204bd3d1bae2ab127334"
+  integrity sha512-I1Fp+yiUYrK0q0UMoO0o9ZEGa0CWhqr0UibM/gcrKl40uYUkVmSemQJPV8+uOJgo4dnOHnTOqIL0r6kcH2hZlQ==
 
 "@img/sharp-darwin-arm64@0.33.4":
   version "0.33.4"
@@ -4658,10 +4658,10 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-sweetalert2@^11.12.2:
-  version "11.12.2"
-  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-11.12.2.tgz#3430b6bd66f732ae6c36b19ff965da5b01b1e3fd"
-  integrity sha512-Rwv5iRYlApkDSXeX22aLhhWMlWPzFxnNBVLZajkFKYhaVEfQkMOPQQRhBtSFxKBPCoko9U3SccWm9hI4o3Id0Q==
+sweetalert2@^11.12.3:
+  version "11.12.3"
+  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-11.12.3.tgz#ce272d8c8d0754090a77465b89769d45430e6199"
+  integrity sha512-tgGJSgfSV/xK113JEvhjwqKAuBYLXsZf0z+tGlHKQNnsLMi4eSNuzn9tt5hUdvjOVTLSPDgo0Lc+tnjy9Uj7Og==
 
 tapable@^2.0.0, tapable@^2.1.1, tapable@^2.2.0, tapable@^2.2.1:
   version "2.2.1"

@@ -10,6 +10,7 @@ import { httpPost } from "../../http";
  * @property {object} account
  * @property {("administrator"|"customer")} account.type
  * @property {boolean} account.canInvite
+ * @property {boolean} account.canHaveActiveSubDiscount
  */
 
 /**
@@ -34,9 +35,18 @@ import { httpPost } from "../../http";
  */
 
 /**
+ * @typedef {object} Key
+ * @property {string} Product
+ * @property {string} Key
+ * @property {(7|30|90)} Term
+ * @property {string} Date The order date in human readable relative format (ex. 29 days ago).
+ */
+
+/**
  * @typedef {object} PurchaseData
  * @property {Subscription[]} subscriptions
  * @property {Order[]} orders
+ * @property {Key[]} keys
  * @property {number} activeSubscriptions
  */
 

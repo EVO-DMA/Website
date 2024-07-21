@@ -1,7 +1,9 @@
 import { attachEvents as attachHeaderEvents, header as getHeader } from "../../templates/header";
 import { AccountData } from "../auth/accountDataManager";
-import { checkoutProduct, initialize as initializeLogic, SubscriptionTerm, SubscriptionTermDays } from "./logic";
+import { checkoutProduct, checkoutStock, initialize as initializeLogic, SubscriptionTerm, SubscriptionTermDays } from "./logic";
 import { initialize as initializeStripe } from "./Stripe";
+import defaultIcon from "../../../img/defaultIcon.svg";
+import { getPrice } from "../store/template";
 
 export async function show(queryParams) {
     if (AccountData == null) return;
@@ -33,19 +35,12 @@ function getTemplate() {
     `;
 }
 
-function getPrice() {
-    if (SubscriptionTerm === -1)
-        return checkoutProduct[`Price_Lifetime`];
-    else
-        return checkoutProduct[`Price_${SubscriptionTerm}_Day`];
-}
-
 export function createProductMarkup() {
-    const price = getPrice();
+    const price = getPrice(SubscriptionTerm, checkoutProduct, checkoutStock);
 
     return /*html*/ `
         <div class="col-auto">
-            <img src="${checkoutProduct.Icon}" class="p-0 checkoutItemIcon" />
+            <img src="${checkoutProduct.Icon == null || checkoutProduct.Icon == "" ? defaultIcon : checkoutProduct.Icon}" class="p-0 checkoutItemIcon" />
         </div>
         <div class="col">
             <div class="row m-0">
@@ -67,7 +62,7 @@ export function createProductMarkup() {
 
 export function createPurchaseButtonMarkup() {
     return /*html*/ `
-        <button class="btn btn-primary" id="PurchaseNowButton">Pay $${getPrice()} Now</button>
+        <button class="btn btn-primary" id="PurchaseNowButton">Pay $${getPrice(SubscriptionTerm, checkoutProduct, checkoutStock)} Now</button>
     `;
 }
 

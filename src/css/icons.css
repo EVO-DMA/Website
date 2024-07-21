@@ -3,6 +3,5 @@
 }
 
 .buttonIcon {
-    filter: drop-shadow(0 2px 3px #000000);
     pointer-events: none;
 }
