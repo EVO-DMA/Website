@@ -56,12 +56,18 @@ export function createPaymentElement(clientSecret) {
 
     paymentElement = elements.create("payment", {
         layout: "accordion",
-        fields: {
-            billingDetails: "never"
-        },
         terms: {
+            applePay: "never",
+            auBecsDebit: "never",
+            bancontact: "never",
             card: "never",
             cashapp: "never",
+            googlePay: "never",
+            ideal: "never",
+            paypal: "never",
+            sepaDebit: "never",
+            sofort: "never",
+            usBankAccount: "never",
         },
     });
 
