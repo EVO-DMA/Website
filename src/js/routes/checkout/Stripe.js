@@ -3,6 +3,7 @@ import { showAlert } from "../../alert";
 import globals from "../../globals";
 import { navigate } from "../../router";
 import { showError } from "./template";
+import { AccountData } from "../auth/accountDataManager";
 
 /** @type {import("@stripe/stripe-js").Stripe} */
 let stripe = null;
@@ -10,6 +11,8 @@ let stripe = null;
 let elements = null;
 /** @type {import("@stripe/stripe-js").StripePaymentElement} */
 let paymentElement = null;
+/** @type {import("@stripe/stripe-js").StripeAddressElement} */
+let addressElement = null;
 
 export async function initialize() {
     stripe = await loadStripe(globals.stripe.publishableKey);
@@ -17,6 +20,7 @@ export async function initialize() {
 
 export function createPaymentElement(clientSecret) {
     if (paymentElement != null) paymentElement.destroy();
+    if (addressElement != null) addressElement.destroy();
     
     elements = stripe.elements({
         clientSecret: clientSecret,
@@ -26,7 +30,7 @@ export function createPaymentElement(clientSecret) {
                 cssSrc: "https://fonts.googleapis.com/css2?family=Encode+Sans",
             }
         ],
-        loader: "never",
+        loader: "always",
         appearance: {
             theme: "night",
             disableAnimations: true,
@@ -54,8 +58,22 @@ export function createPaymentElement(clientSecret) {
         },
     });
 
-    paymentElement = elements.create("payment", {
-        layout: "accordion",
+    /** @type {import("@stripe/stripe-js").StripePaymentElementOptions} */
+    const paymentElementOptions = {
+        layout: {
+            type: "accordion",
+            defaultCollapsed: true,
+            radios: false,
+            spacedAccordionItems: true,
+        },
+        defaultValues: {
+            billingDetails: {
+                email: AccountData.user.Email,
+            }
+        },
+        fields: {
+            billingDetails: "auto"
+        },
         terms: {
             applePay: "never",
             auBecsDebit: "never",
@@ -69,9 +87,32 @@ export function createPaymentElement(clientSecret) {
             sofort: "never",
             usBankAccount: "never",
         },
-    });
-
+    };
+    paymentElement = elements.create("payment", paymentElementOptions);
     paymentElement.mount("#paymentElement");
+
+    paymentElement.on("change", (event) => {
+        const method = event.value.type;
+
+        if (method === "afterpay_clearpay" || method === "affirm") {
+            if (addressElement == null) {
+                addressElement = createAddressElement();
+                addressElement.mount("#addressElement");
+            }
+
+            document.getElementById("addressElementHeader").style.display = "";
+            document.getElementById("addressElementContainer").style.display = "";
+        } else {
+            if (addressElement != null) {
+                addressElement.unmount();
+                addressElement.destroy();
+                addressElement = null;
+            }
+
+            document.getElementById("addressElementHeader").style.display = "none";
+            document.getElementById("addressElementContainer").style.display = "none";
+        }
+    })
 }
 
 export async function retrievePaymentIntent(clientSecret, ProductID, SubscriptionTerm) {
@@ -106,11 +147,18 @@ export async function confirmPayment() {
         },
     });
 
-    // This point will only be reached if there is an immediate error when confirming the payment.
-    // Otherwise, your customer will be redirected to your `return_url`.
-    if (error != null && (error.type === "card_error" || error.type === "validation_error")) {
+    if (error != null && (error.type != null && error.message != null)) {
         showError(error.message);
     } else {
         showError("An unknown error occurred while processing your payment. Please try again later.");
     }
+}
+
+function createAddressElement() {
+    /** @type {import("@stripe/stripe-js").StripeAddressElementOptions} */
+    const addressElementOptions = {
+        mode: "billing",
+    };
+
+    return elements.create("address", addressElementOptions);
 }

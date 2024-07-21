@@ -27,6 +27,19 @@ function getTemplate() {
             </div>
             <div class="form-text mt-3 mb-2 p-0">We have partnered with Stripe to offer secure and convenient payment options.</div>
             <div class="row m-0 mt-2 mb-3 p-0 checkoutErrorsContainer" id="checkoutErrorsContainer" style="display: none;"></div>
+
+            <!-- Address -->
+            <div class="row m-0 p-0 checkoutSectionHeader" id="addressElementHeader" style="display: none">
+                <div class="col p-0">Address</div>
+            </div>
+            <div class="row m-0 p-0 addressElementContainer" id="addressElementContainer" style="display: none">
+                <div class="col p-0 addressElement" id="addressElement"><!--Stripe.js injects the Address Element--></div>
+            </div>
+
+            <!-- Payment Method -->
+            <div class="row m-0 p-0 checkoutSectionHeader">
+                <div class="col p-0">Payment Method</div>
+            </div>
             <div class="row m-0 p-0">
                 <div class="col p-0" id="paymentElement"><!--Stripe.js injects the Payment Element--></div>
             </div>

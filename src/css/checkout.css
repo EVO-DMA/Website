@@ -15,6 +15,11 @@
     font-size: 28px;
 }
 
+.checkoutSectionHeader {
+    font-size: 22px;
+    margin-bottom: 14px !important;
+}
+
 .checkoutProduct {
     border-top: 1px solid #444444;
     border-bottom: 1px solid #444444;
@@ -37,4 +42,13 @@
     padding: 10px !important;
     color: #e9002b;
     border-left: 2px solid #e9002b;
+}
+
+.addressElementContainer {
+    border-bottom: 1px solid #444444;
+    margin-bottom: 14px !important;
+}
+
+.addressElement {
+    margin-bottom: 20px;
 }
