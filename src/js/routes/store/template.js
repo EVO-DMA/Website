@@ -203,11 +203,9 @@ function isValidPrice(price) {
  * @param {any} stock
  */
 export function getPrice(day, product, stock) {
-    let usedDayName = day;
-    if (day === -1) usedDayName = "Lifetime";
-
-    const subPrice = product[`Price_${usedDayName}_Day_Sub`];
-    const nonSubPrice = product[`Price_${usedDayName}_Day`];
+    const subPrice = product[`Price_${day}_Day_Sub`];
+    const nonSubPrice = product[`Price_${day}_Day`];
+    const lifetimePrice = product["Price_Lifetime"];
 
     if (product.Track_Stock) {
         const stockInfo = stock[product.ID][day];
@@ -215,6 +213,7 @@ export function getPrice(day, product, stock) {
     }
 
     if (AccountData.account.canHaveActiveSubDiscount && isValidPrice(subPrice)) return subPrice;
+    else if (day === -1 && isValidPrice(lifetimePrice)) return lifetimePrice;
     else if (isValidPrice(nonSubPrice)) return nonSubPrice;
     else return -1;
 }
