@@ -157,7 +157,7 @@ export async function confirmPayment() {
 function createAddressElement() {
     /** @type {import("@stripe/stripe-js").StripeAddressElementOptions} */
     const addressElementOptions = {
-        mode: "billing",
+        mode: "shipping",
     };
 
     return elements.create("address", addressElementOptions);
