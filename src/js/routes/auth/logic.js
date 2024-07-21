@@ -1,7 +1,7 @@
 import { passwordStrength } from "check-password-strength";
 import { showAlert } from "../../alert";
 import { httpPost } from "../../http";
-import { show as showLoader } from "../../loader";
+import { hide as hideLoader, show as showLoader } from "../../loader";
 import { navigate } from "../../router";
 import { set as setSessionToken } from "../../sessionManager";
 
@@ -196,6 +196,8 @@ export function initialize(queryParams) {
             } catch (error) {
                 console.error(`ERROR saving session token: ${error}`);
             }
+        } else {
+            hideLoader();
         }
     });
 
