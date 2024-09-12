@@ -219,7 +219,8 @@ export function initialize(queryParams) {
             showAlert(
                 "success",
                 "Registration",
-                /*html*/ `Your account has been created! Please check your inbox at ${authEmailEl.value} for instructions on activating your account.<br>NOTE: It may take 5-10 minutes for the email to arrive.`,
+                ///*html*/ `Your account has been created! Please check your inbox at ${authEmailEl.value} for instructions on activating your account.<br>NOTE: It may take 5-10 minutes for the email to arrive.`,
+                /*html*/ `Congratulations, your account has been successfully created! You're one step closer to enhancing your EFT gaming experience now.`,
                 false,
                 false,
                 "Show Login",
