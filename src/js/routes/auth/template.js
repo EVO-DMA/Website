@@ -134,7 +134,7 @@ function getTemplate() {
             <!-- Invite Code -->
             <div class="row m-0 mb-3 justify-content-center align-items-center authInviteCode" style="display: none">
                 <div class="col">
-                    <label for="authInviteCode" class="form-label">Invite Code</label>
+                    <label for="authInviteCode" class="form-label">Private Invite Code</label>
                     <input type="text" class="form-control" id="authInviteCode" />
                 </div>
             </div>
