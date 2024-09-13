@@ -5,6 +5,9 @@ import { hide as hideLoader, show as showLoader } from "../../loader";
 import { navigate } from "../../router";
 import { set as setSessionToken } from "../../sessionManager";
 
+// State
+let privateRegistrationEnabled = false;
+
 // Elements
 /** @type {HTMLDivElement} */
 let authFormTitleEl;
@@ -334,6 +337,11 @@ export function initialize(queryParams) {
         setPasswordStrength(value);
     });
 
+    const privateUiEnabled = queryParams["privateUiEnabled"];
+    if (privateUiEnabled != null && privateUiEnabled == "true") {
+        privateRegistrationEnabled = true;
+    }
+
     // Parse query params and show appropriate content
     const urlAction = queryParams["action"];
     if (urlAction != null) {
@@ -493,7 +501,9 @@ function showRegistration() {
     setRelativesVisibility("authPasswordRelated", "show");
 
     // Invite Code
-    setRelativesVisibility("authInviteCode", "show");
+    if (privateRegistrationEnabled) {
+        setRelativesVisibility("authInviteCode", "show");
+    }
 
     // Buttons
     setRelativesVisibility("authRegister", "show");

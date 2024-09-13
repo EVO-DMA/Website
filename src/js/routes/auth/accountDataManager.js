@@ -7,6 +7,7 @@ import { httpPost } from "../../http";
  * @property {string} user.Avatar
  * @property {string} user.Username
  * @property {string} user.Email
+ * @property {boolean} user.PublicUser
  * @property {object} account
  * @property {("administrator"|"customer")} account.type
  * @property {boolean} account.canInvite

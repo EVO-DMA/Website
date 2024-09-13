@@ -20,6 +20,7 @@ function getTemplate() {
             <div class="col-auto p-0 accountContainerSidebar">
                 <div class="row m-0">
                     <div class="row m-0 p-0 accountProfilePicture">
+                        <div class="membershipLevelBadge membershipLevelBadge_${AccountData.user.PublicUser === true ? "public" : "private"}">${AccountData.user.PublicUser === true ? "Public" : "Private"}</div>
                         <img src="data:image/png;base64,${AccountData.user.Avatar}" class="p-0 accountProfilePicture" />
                     </div>
                     <div class="row m-0 pt-2 pb-2 p-0 accountUsername justify-content-center align-items-center">

@@ -97,3 +97,24 @@
     --bs-table-striped-bg: #333333;
     border-color: #444444;
 }
+
+.membershipLevelBadge {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    padding: 10px !important;
+    width: auto;
+    border-radius: 5px 0 5px 0;
+    border: 1px solid #444444;
+    box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.8);
+    text-shadow: 0 1px 2px #000000;
+    font-size: 20px;
+}
+
+.membershipLevelBadge_private {
+    background: linear-gradient(180deg, #ffca00, #ffa114);
+}
+
+.membershipLevelBadge_public {
+    background: linear-gradient(180deg, #721023, #4a1725);
+}
